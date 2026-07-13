@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>濞兼ê顦块幏?闁煎啿鏈▍娆戠不閿涘嫭鍊?/title>
+    <link href="../css/material-icons.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            padding: 0 16px;
+        }
+
+        .title-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 17px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .nav-button:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        .material-icons {
+            color: #ff3c64;
+        }
+
+        .create-btn {
+            background: linear-gradient(135deg, #ff7c7c, #ff5252);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: none;
+            font-weight: 500;
+            z-index: 1;
+        }
+        
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 82, 82, 0.35);
+        }
+        
+        /* 閻犱讲鍓濋弳鐔煎闯閵婏妇澹夌€?*/
+        .counter {
+            text-align: center;
+            margin: 15px 0 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .counter span {
+            color: #ff5252;
+            font-weight: 600;
+        }
+        
+        /* 缂傚啯鍨堕悧鍝ユ暜閸愩劎婀?*/
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 18px;
+            margin-top: 10px;
+        }
+        
+        /* 闁告绱曟晶鏍冀瀹勬壆纭€ */
+        .card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            aspect-ratio: 3/4;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+            display: flex;
+            align-items: flex-end;
+            padding: 12px;
+        }
+        
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            border: none;
+            cursor: pointer;
+            z-index: 2;
+        }
+        
+        .video-indicator {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            z-index: 2;
+        }
+        
+        /* 婵烇綀顕ф慨鐐哄棘閺夊灝骞㈤柣妤€娲﹂悧鍗烆嚕?*/
+        .add-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+            border: 2px dashed #e0e0e0;
+        }
+        
+        .add-card .material-icons {
+            font-size: 32px;
+            color: #aaa;
+            margin-bottom: 8px;
+        }
+        
+        .add-card .card-title {
+            color: #aaa;
+            text-align: center;
+        }
+        
+        /* 濡澘瀚～宥呂熼埄鍐ｅ亾娴ｈ鏀遍柡宥呭槻缁?*/
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .modal-content {
+            max-width: 90%;
+            max-height: 85%;
+            position: relative;
+        }
+        
+        .modal-content img, .modal-content video {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+        
+        /* 缂佸矁娅ｆ慨鎼佸箑娴ｅ湱澹夌€?*/
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+        
+        .empty-state .material-icons {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+        
+        .empty-state p {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        /* 濞戞挸锕ｇ槐璺何熼埄鍐ｅ亾娴ｈ鏀?*/
+        .upload-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .upload-container {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        .upload-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .upload-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .upload-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .drop-area {
+            border: 2px dashed #e0e0e0;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .drop-area.active {
+            border-color: #ff7c7c;
+            background: #fff5f5;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: #ff7c7c;
+            margin-bottom: 10px;
+        }
+        
+        .upload-text {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-info {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .file-name {
+            font-size: 14px;
+            margin-bottom: 5px;
+            word-break: break-all;
+        }
+        
+        .file-details {
+            display: flex;
+            justify-content: space-between;
+            color: #888;
+            font-size: 12px;
+        }
+        
+        .upload-btn {
+            background: linear-gradient(135deg, #ff7c7c, #ff5252);
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-btn:disabled {
+            background: #e0e0e0;
+            cursor: not-allowed;
+        }
+        
+        .upload-btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 82, 82, 0.35);
+        }
+        
+        .progress-container {
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #ff7c7c, #ff5252);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .error-message {
+            color: #ff5252;
+            font-size: 14px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+        
+        /* 闁告柣鍔庨弫?*/
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card {
+            animation: fadeIn 0.4s ease forwards;
+        }
+        
+        /* 闁告繂绉寸花鎻掝嚕韫囨氨娈堕柡?*/
+        @media (max-width: 480px) {
+            .grid-container {
+                gap: 14px;
+            }
+            
+            .card {
+                border-radius: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="title-bar">
+        <button class="nav-button back-btn" onclick="history.back()">
+            <i class="material-icons">arrow_back</i>
+        </button>
+        <div class="title">闁煎浜滈悾鐐▕婢跺骸鍓归柡?/div>
+        <button class="create-btn" id="createBtn">闁哄倹婢樼紓?/button>
+    </div>
+    
+    <div class="counter">鐎圭寮堕崸濠囧礉?<span id="currentCount">0</span> / 10 濞戞搩浜ｉ崕妤呭疾?/div>
+    
+    <div class="grid-container" id="gridContainer">
+        <!-- 闁告绱曟晶鏍焊閸℃韬弶鈺傜懇閸ｇ兘宕濋妸锔瑰亾娴ｇ儤鏅搁柟?-->
+    </div>
+    
+    <!-- 濡澘瀚～宥呂熼埄鍐ｅ亾娴ｈ鏀?-->
+    <div class="modal" id="previewModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">
+                <i class="material-icons">close</i>
+            </button>
+            <div id="mediaContainer"></div>
+        </div>
+    </div>
+    
+    <!-- 濞戞挸锕ｇ槐璺何熼埄鍐ｅ亾娴ｈ鏀?-->
+    <div class="upload-modal" id="uploadModal" style="display: none;">
+        <div class="upload-container">
+            <div class="upload-header">
+                <div class="upload-title">濞戞挸锕ｇ槐鍫曞棘閹峰苯鍓归柡?/div>
+                <button class="upload-close" id="closeUpload">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            
+            <div class="drop-area" id="dropArea">
+                <div class="upload-icon">
+                    <i class="material-icons">cloud_upload</i>
+                </div>
+                <div class="upload-text">闁归攱鐗楅弬渚€宕堕崜褍顣婚柟瀛樼墳椤锛愰幋鐐寸€ù鐘烘硾閸╁苯顫㈤妶鍜佹П闁挎稑鏈崹銊╂倷閻熸澘姣婇梺顐㈩槹鐎氥劑寮崶锔筋偨</div>
+                <div class="upload-text" style="font-size: 12px; margin-top: 15px;">
+                    闁衡偓椤栨稑鐦柡宥囧帶缁? JPG, PNG, MP4 | 闁哄牃鍋撳鍫嗗啯妲€閻? 25MB | 闁告帒妫滄ご鎼佹偝? 闁?080P | 閻熸瑥妫濋。鍫曞籍閸洘姣? 闁?0缂?                </div>
+                <input type="file" id="fileInput" class="file-input" accept="image/*,video/mp4">
+            </div>
+            
+            <div class="file-info" id="fileInfo">
+                <div class="file-name" id="fileName"></div>
+                <div class="file-details">
+                    <span id="fileType"></span>
+                    <span id="fileSize"></span>
+                </div>
+            </div>
+            
+            <div class="error-message" id="errorMessage"></div>
+            
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress" id="progressBar"></div>
+                </div>
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+            
+            <button class="upload-btn" id="uploadBtn" disabled>鐎殿喒鍋撳┑顔碱儎缁楀倹瀵?/button>
+        </div>
+    </div>
+
+    <script>
+        // 缂佲偓鏉炴壆浼愰柤鍐叉湰濞呮瑩寮悧鍫濈ウ闁挎稑鐗嗗﹢顏嗏偓鍦仱濡绢垱鎯旈弮鍌涙殢濞戞搩鍘虹划鐖弔orage濞戞搩鍙€椤曚即宕ｉ弽鐢电
+        let bg_list = [];
+
+        // DOM闁稿繐鍟扮粈?        const gridContainer = document.getElementById('gridContainer');
+        const previewModal = document.getElementById('previewModal');
+        const closeModal = document.getElementById('closeModal');
+        const mediaContainer = document.getElementById('mediaContainer');
+        const currentCount = document.getElementById('currentCount');
+        const createBtn = document.getElementById('createBtn');
+        const uploadModal = document.getElementById('uploadModal');
+        const closeUpload = document.getElementById('closeUpload');
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileType = document.getElementById('fileType');
+        const fileSize = document.getElementById('fileSize');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // 鐟滅増鎸告晶鐘绘焻婢跺鍘柣銊ュ閺嬪啯绂?        let selectedFile = null;
+        let thumbnailBlob = null;
+
+        // 闁告帗绻傞～鎰板礌閺嶎厹鈧妫?        function initPage() {
+            bg_list = JSON.parse(localStorage.getItem('bg_list')) || [];
+            renderBackgrounds();
+            updateCounter();
+            setupEventListeners();
+        }
+
+        // 閻犱礁澧介悿鍡樼鐎ｂ晜顐介柣鈺傚灥閹宕?        function setupEventListeners() {
+            // 闁哄倸娲ｅ▎銏ゅ箯閺嶃劍鏉?            dropArea.addEventListener('click', () => fileInput.click());
+            
+            dropArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropArea.classList.add('active');
+            });
+            
+            dropArea.addEventListener('dragleave', () => {
+                dropArea.classList.remove('active');
+            });
+            
+            dropArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropArea.classList.remove('active');
+                
+                if (e.dataTransfer.files.length) {
+                    handleFileSelect(e.dataTransfer.files[0]);
+                }
+            });
+            
+            // 闁哄倸娲ｅ▎銏ゆ焻婢跺顏?            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    handleFileSelect(e.target.files[0]);
+                }
+            });
+            
+            // 濞戞挸锕ｇ槐鍫曞箰婢舵劖灏?            uploadBtn.addEventListener('click', startUpload);
+            
+            // 闁稿繑濞婂Λ瀛樼▔婵犱胶鐐婃俊顖楀墲閳ь兛鐒﹂、?            closeUpload.addEventListener('click', () => {
+                uploadModal.style.display = 'none';
+                resetUploadForm();
+            });
+        }
+
+        // 濠㈣泛瀚幃濠囧棘閸ワ附顐介梺顐㈩槹鐎?        function handleFileSelect(file) {
+            // 闂佹彃绉堕悿鍡涙煥濞嗘帩鍤栧ǎ鍥ｅ墲娴?            errorMessage.style.display = 'none';
+            
+            // 濡ょ姴鐭侀惁澶愬棘閸ワ附顐界紒顐ヮ嚙閻?            const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'video/mp4'];
+            if (!validTypes.includes(file.type)) {
+                showError('濞戞挸绉甸弫顕€骞愭担鐑樼暠闁哄倸娲ｅ▎銏ゅ冀閻撳海纭€闁靛棗鍊介顒勬焻婢跺顏?JPG, PNG 闁?MP4 闁哄倸娲ｅ▎銏ゅΥ?);
+                return;
+            }
+            
+            // 濡ょ姴鐭侀惁澶愬棘閸ワ附顐藉鍫嗗啰姣?(25MB)
+            const maxSize = 25 * 1024 * 1024; // 25MB
+            if (file.size > maxSize) {
+                showError('闁哄倸娲ｅ▎銏″緞瑜嶉惃顒傛惥閸涙壆绠?25MB 闂傚嫭鍔曢崺妤呭Υ?);
+                return;
+            }
+            
+            selectedFile = file;
+            
+            // 闁哄嫬澧介妵姘跺棘閸ワ附顐藉ǎ鍥ｅ墲娴?            fileName.textContent = file.name;
+            fileType.textContent = file.type.includes('image') ? '闁搞儱澧芥晶? : '閻熸瑥妫濋。?;
+            fileSize.textContent = formatFileSize(file.size);
+            fileInfo.style.display = 'block';
+            
+            // 闁告凹鍨抽弫銈嗙▔婵犱胶鐐婇柟绋款樀閹?            uploadBtn.disabled = false;
+            
+            // 濞戞捇缂氶～瀣紣閹寸偞鐎ù鐘插閺佹捇骞嬮幇顔剧礆闁伙絻鍎卞ù?            if (file.type.includes('video')) {
+                generateVideoThumbnail(file);
+            } else {
+                // 濞戞挸鎼ù姗€鎮ч崶鈺傛櫢闁瑰瓨鍔楃紓澶愭偩閵夈儲绂?                generateImageThumbnail(file);
+            }
+        }
+
+        // 濞戞挸鎼ù姗€鎮ч崶鈺傛櫢闁瑰瓨鍔楃紓澶愭偩閵夈儲绂?        function generateImageThumbnail(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    // 濡ょ姴鐭侀惁澶愬礆閸℃岸鍝洪柣?                    if (img.width > 1920 || img.height > 1920) {
+                        showError('闁搞儱澧芥晶鏍礆閸℃岸鍝洪柣婊冩穿缁夊瓨娼?1080P 闂傚嫭鍔曢崺妤呭Υ?);
+                        selectedFile = null;
+                        uploadBtn.disabled = true;
+                        return;
+                    }
+                    
+                    // 闁告帗绋戠紓鎾剁磽閳哄啯娈ｉ柛?                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // 閻犱緤绱曢悾鑽ょ磽閳哄啯娈ｉ柛銉﹀劤閺勫倻鈧?                    const maxDimension = 384;
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > height) {
+                        if (width > maxDimension) {
+                            height *= maxDimension / width;
+                            width = maxDimension;
+                        }
+                    } else {
+                        if (height > maxDimension) {
+                            width *= maxDimension / height;
+                            height = maxDimension;
+                        }
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    // 缂備焦锚閸╂绱撻埡鍐╂闁?                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // 閺夌儐鍓氬畷鍙夌▔缁″〈ob
+                    canvas.toBlob(blob => {
+                        thumbnailBlob = blob;
+                    }, 'image/jpeg', 0.8);
+                };
+                
+                img.src = e.target.result;
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        // 濞戞捇缂氶～瀣紣閹寸姵鏅搁柟瀛樺姉缂傚鎮鹃妷銉︾
+        function generateVideoThumbnail(file) {
+            const video = document.createElement('video');
+            const url = URL.createObjectURL(file);
+            
+            video.src = url;
+            video.muted = true;
+            video.playsInline = true;
+            
+            video.onloadedmetadata = function() {
+                // 濡ょ姴鐭侀惁澶屾喆閸℃侗鏆ラ柡鍐ㄧ埣閺?                if (video.duration > 20) {
+                    showError('閻熸瑥妫濋。鍫曞籍閸洘姣愰悺鎺戞嚀缁?20 缂佸甯″娲礆闊祴鍋?);
+                    selectedFile = null;
+                    uploadBtn.disabled = true;
+                    URL.revokeObjectURL(url);
+                    return;
+                }
+                console.log("generateVideoThumbnail:", video.videoWidth, video.videoHeight)
+                
+                // 濡ょ姴鐭侀惁澶愬礆閸℃岸鍝洪柣?                if (video.videoWidth > 1920 || video.videoHeight > 1920) {
+                    showError('閻熸瑥妫濋。鍫曞礆閸℃岸鍝洪柣婊冩穿缁夊瓨娼?1080P 闂傚嫭鍔曢崺妤呭Υ?);
+                    selectedFile = null;
+                    uploadBtn.disabled = true;
+                    URL.revokeObjectURL(url);
+                    return;
+                }
+                
+                // 闁?缂佸甯婄紞鍛磾椤斿灝绠柛娆愮墱缂傚鎮鹃妷銉︾
+                video.currentTime = 1;
+            };
+            
+            video.onseeked = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                // 闁告帗绋戠紓鎾剁磽閳哄啯娈ｉ柛銉︽嫕缁辨瑩寮甸埀顒佸緞瑜嶉弰鍌溾偓?84px闁?                const thumbnailCanvas = document.createElement('canvas');
+                const thumbnailCtx = thumbnailCanvas.getContext('2d');
+                
+                const maxDimension = 384;
+                let width = video.videoWidth;
+                let height = video.videoHeight;
+                
+                if (width > height) {
+                    if (width > maxDimension) {
+                        height *= maxDimension / width;
+                        width = maxDimension;
+                    }
+                } else {
+                    if (height > maxDimension) {
+                        width *= maxDimension / height;
+                        height = maxDimension;
+                    }
+                }
+                
+                thumbnailCanvas.width = width;
+                thumbnailCanvas.height = height;
+                
+                thumbnailCtx.drawImage(canvas, 0, 0, width, height);
+                
+                // 閺夌儐鍓氬畷鍙夌▔缁″〈ob
+                thumbnailCanvas.toBlob(blob => {
+                    thumbnailBlob = blob;
+                    URL.revokeObjectURL(url);
+                }, 'image/jpeg', 0.8);
+            };
+            
+            video.onerror = function() {
+                showError('闁哄啰濮电涵鑸靛緞閸曨厽鍊為悷娆忔椤ｅ爼寮崶锔筋偨闁?);
+                URL.revokeObjectURL(url);
+            };
+        }
+
+        // 鐎殿喒鍋撳┑顔碱儎缁楀倹瀵?        async function startUpload() {
+            if (!selectedFile || !thumbnailBlob) {
+                showError('閻犲洨鍏橀埀顒€顦扮€氥劑寮垫径瀣珡闁汇劌瀚弸鍐╃闊祴鍋?);
+                return;
+            }
+            
+            // 缂佸倷鑳堕弫銈夊箰婢舵劖灏﹂柨娑樻湰濡绮堟ウ璺ㄧ閹艰揪闄勫?            uploadBtn.disabled = true;
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            progressText.textContent = '0%';
+            
+            try {
+                // 闁汇垻鍠愰崹姘跺船椤栨瑧顏盜D
+                let unionid = localStorage.getItem('unionid');
+                if (!unionid)
+                {
+                    alert('闁活潿鍔嶉崺娑㈠嫉椤忓棙顏㈢憸?);
+                    return;
+                }
+                const bg_id = `${unionid}_${Date.now()}`;
+                const suffix = selectedFile.name.substring(selectedFile.name.lastIndexOf('.'))
+                // 濞戞挸锕ｇ槐鍫曞储閻斿憡鐎ù鐘烘硾閸╁SS
+                const ossUrl = `https://濞兼ê顦块幏?oss-cn-beijing.aliyuncs.com/background/${bg_id}${suffix}`;
+                await uploadFile({
+                    url: ossUrl,
+                    file: selectedFile,
+                    contentType: selectedFile.type,
+                    onProgress: (progress) => {
+                        const progressValue = Math.round(progress * 100);
+                        progressBar.style.width = `${progressValue}%`;
+                        progressText.textContent = `${progressValue}%`;
+                    }
+                });
+                
+                // 濞戞挸锕ｇ槐鍓佺磽閳哄啯娈ｉ柛?                const thumbnailUrl = `https://濞兼ê顦块幏?oss-cn-beijing.aliyuncs.com/background/${bg_id}_thumbnail.jpg`;
+                await uploadFile({
+                    url: thumbnailUrl,
+                    file: thumbnailBlob,
+                    contentType: 'image/jpeg'
+                });
+                
+                // 闁告帗绋戠紓鎾诲棘閹峰苯鍓归柡鍜佸灠椤曨喚鎸?                const newBg = {
+                    unionid: unionid, // 閻庡湱鍋ゅ顖涙償閺冨倹鏆忓☉鎿冨幒缁娀鎮介妸锕€鐓曞ǎ鍥ｅ墲娴煎懘鎳㈠畡鏉跨悼
+                    bg_id: bg_id,
+                    is_video: selectedFile.type.includes('video') ? 1 : 0,
+                    bg_url: ossUrl,
+                    thumbnail_url: thumbnailUrl
+                };
+                console.log("BBBBBBBBB", newBg)
+                
+                // 閻犲鍟伴弫顥I濞ｅ洦绻傞悺銊╂嚄鐏炵偓鐝ǎ鍥ｅ墲娴?                const response = await fetch('https://www.pandora-temp.pages.dev/api/auth/apply_new_bg', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newBg)
+                });
+                
+                const result = await response.json();
+                
+                if (result.code !== 0) {
+                    throw new Error(result.message || '濞ｅ洦绻傞悺銊╂嚄鐏炵偓鐝ǎ鍥ｅ墲娴煎懏寰勬潏顐バ?);
+                }
+                
+                // 婵烇綀顕ф慨鐐哄礆閻楀牊鎷遍柛锔芥緲閸亞鎮?                bg_list.push(newBg);
+                renderBackgrounds();
+                updateCounter();
+                
+                // 闁稿繑濞婂Λ瀛樼▔婵犱胶鐐婃俊顖楀墲閳ь兛鐒﹂、?                uploadModal.style.display = 'none';
+                resetUploadForm();
+                localStorage.setItem('bg_list', JSON.stringify(bg_list));
+                // 闁哄嫬澧介妵姘跺箣閹邦剙顫犳繛鎴濈墛娴?                alert('闁煎啿鏈▍娆愮▔婵犱胶鐐婇柟瀛樺姇婵盯鏁?);
+                
+            } catch (error) {
+                console.error('濞戞挸锕ｇ槐鑸靛緞鏉堫偉袝:', error);
+                showError(`濞戞挸锕ｇ槐鑸靛緞鏉堫偉袝: ${error.message}`);
+            } finally {
+                progressContainer.style.display = 'none';
+                uploadBtn.disabled = false;
+            }
+        }
+
+        // 闁哄倸娲ｅ▎銏＄▔婵犱胶鐐婇柛鎴ｅГ閺?        function uploadFile({ url, file, contentType, onProgress }) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                
+                xhr.open('PUT', url, true);
+                xhr.setRequestHeader('Content-Type', contentType);
+                
+                xhr.upload.onprogress = function(e) {
+                    if (e.lengthComputable && onProgress) {
+                        const progress = e.loaded / e.total;
+                        onProgress(progress);
+                    }
+                };
+                
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        resolve();
+                    } else {
+                        reject(new Error(`濞戞挸锕ｇ槐鑸靛緞鏉堫偉袝闁挎稑鐬兼慨鎼佸箑娴ｈ櫣鍨抽柨?{xhr.status}`));
+                    }
+                };
+                
+                xhr.onerror = function() {
+                    reject(new Error('缂傚啯鍨圭划鍫曟煥濞嗘帩鍤?));
+                };
+                
+                xhr.send(file);
+            });
+        }
+
+        // 婵炴挸寮堕悡瀣嚄鐏炵偓鐝柛妤嬬磿婢?        function renderBackgrounds() {
+            gridContainer.innerHTML = '';
+            
+            if (bg_list.length === 0) {
+                gridContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="material-icons">image</i>
+                        <h3>闁哄棗鍊瑰Λ銈夋嚊椤忓嫮鏆板☉鏂款槼閸庢寮?/h3>
+                        <p>闁绘劗鎳撻崵?闁哄倹婢樼紓?闁圭顦甸幐鍐睬庣拠鎻掝潱闁诡喓鍔庡▓鎴犵箔椤戣法顏卞☉鎿冧海閸庢寮?/p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // 婵炴挸寮堕悡瀣啅閸欏绠掗柤鍐叉湰濞呮瑩宕￠敍鍕暬
+            bg_list.forEach(bg => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-image" style="background-image: url(${bg.thumbnail_url})">
+                        ${bg.is_video ? `<div class="video-indicator"><i class="material-icons" style="font-size:14px;color:white">play_circle_filled</i><span>閻熸瑥妫濋。?/span></div>` : ''}
+                        <div class="card-overlay"></div>
+                        <button class="delete-btn" data-id="${bg.bg_id}">
+                            <i class="material-icons" style="font-size:16px;color:#ff5252">close</i>
+                        </button>
+                    </div>
+                `;
+                
+                // 婵烇綀顕ф慨鐐烘倷閻熸澘姣婂Λ鏉垮椤秵绂嶇€ｂ晜顐?                card.addEventListener('click', (e) => {
+                    if (!e.target.closest('.delete-btn')) {
+                        previewBackground(bg);
+                    }
+                });
+                
+                // 婵烇綀顕ф慨鐐哄礆閻樼粯鐝熷ù婊冾儎濞?                const deleteBtn = card.querySelector('.delete-btn');
+                deleteBtn.addEventListener('click', () => deleteBackground(bg.bg_id));
+                
+                gridContainer.appendChild(card);
+            });
+        }
+
+        // 闁哄洤鐡ㄩ弻濠勬媼閳╁啯娈堕柛?        function updateCounter() {
+            currentCount.textContent = bg_list.length;
+        }
+
+        // 濡澘瀚～宥夋嚄鐏炵偓鐝?        function previewBackground(bg) {
+            mediaContainer.innerHTML = '';
+            
+            if (bg.is_video) {
+                const video = document.createElement('video');
+                video.src = bg.bg_url;
+                video.controls = true;
+                video.autoplay = true;
+                video.style.width = '100%';
+                mediaContainer.appendChild(video);
+            } else {
+                const img = document.createElement('img');
+                img.src = bg.bg_url;
+                img.alt = '闁煎啿鏈▍娆撳炊閸撗冾暬';
+                mediaContainer.appendChild(img);
+            }
+            
+            previewModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 闁告帞濞€濞呭酣鎳楃仦鐐彲
+        async function deleteBackground(bgId) {
+            if (!confirm('缁绢収鍠栭悾鍓ф啺娴ｇ鐏╅梻鍕╁€涚换鏍ㄧ▔椤忓洤鍓归柡鍜佸灠閹囨晬?)) return;
+            
+            try {
+                let unionid = localStorage.getItem('unionid');
+                // 閻犲鍟伴弫顥I闁告帞濞€濞呭酣鎳楃仦鐐彲
+                const response = await fetch('https://www.pandora-temp.pages.dev/api/auth/remove_bg', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({unionid: unionid, bg_id: bgId })
+                });
+                
+                const result = await response.json();
+                
+                if (result.code !== 0) {
+                    throw new Error(result.message || '闁告帞濞€濞呭孩寰勬潏顐バ?);
+                }
+                
+                // 濞寸姴瀛╁﹢浼村捶閺夊灝鐏欓悶娑栧妺閼垫垿宕氶悩缁樼彑
+                bg_list = bg_list.filter(bg => bg.bg_id !== bgId);
+
+                localStorage.setItem('bg_list', JSON.stringify(bg_list));
+                renderBackgrounds();
+                updateCounter();
+                
+            } catch (error) {
+                console.error('闁告帞濞€濞呭孩寰勬潏顐バ?', error);
+                alert(`闁告帞濞€濞呭孩寰勬潏顐バ? ${error.message}`);
+            }
+        }
+
+        // 闂佹彃绉堕悿鍡樼▔婵犱胶鐐婇悶娑栧妼瀹?        function resetUploadForm() {
+            selectedFile = null;
+            thumbnailBlob = null;
+            fileInput.value = '';
+            fileInfo.style.display = 'none';
+            uploadBtn.disabled = true;
+            errorMessage.style.display = 'none';
+            progressContainer.style.display = 'none';
+        }
+
+        // 闁哄嫬澧介妵姘舵煥濞嗘帩鍤栨繛鎴濈墛娴?        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        // 闁哄秶鍘х槐锟犲礌閺嶃劍鐎ù鐘烘硾閵囧洨浜?        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // 闁告帗绻傞～鎰板礌閺嶎厹鈧妫?        createBtn.addEventListener('click', () => {
+            const membership_level = parseInt(localStorage.getItem('membership_level')) || 0;
+            const membership_expiry_time = localStorage.getItem('membership_expiry_time'); //闁哄秶鍘х槐锛勭尵鐠佽櫕濡?2025-03-23 00:00:00'
+            if (membership_level > 0 && membership_expiry_time) {
+                const expiryDate = new Date(membership_expiry_time);
+                if (expiryDate < new Date()) {
+                    confirm("濞村吋鑹鹃幉鍐差啅閼煎墎绠栭柡?);
+                    return;
+                }
+            }
+            else {
+                confirm("濞村吋鑹鹃幉鍐差啅閼煎墎绠栭柡?);
+                return;
+            }
+
+            uploadModal.style.display = 'flex';
+        });
+        
+        // 闁稿繑濞婂Λ瀛橈紣閸曨噮娼旀俊顖楀墲閳ь兛鐒﹂、?        closeModal.addEventListener('click', () => {
+            previewModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // 闁稿绮嶉娑氭喆閸℃侗鏆ラ柟缁㈠幗閺?            const video = mediaContainer.querySelector('video');
+            if (video) {
+                video.pause();
+            }
+        });
+
+        window.addEventListener('load', initPage);
+    </script>
+</body>
+</html>

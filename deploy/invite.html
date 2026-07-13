@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>激活邀请码</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "PingFang SC", "Helvetica Neue", sans-serif;
+            background: #fff9f9;
+            color: #333;
+            padding: 60px 20px 40px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+        .card {
+            width: 100%;
+            max-width: 360px;
+            background: white;
+            border-radius: 20px;
+            padding: 32px 24px;
+            box-shadow: 0 6px 20px rgba(255, 182, 193, 0.2);
+            text-align: center;
+        }
+        .title {
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #ff2442;
+            margin-bottom: 28px;
+        }
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ffdde1;
+            border-radius: 12px;
+            font-size: 16px;
+            background: #fff8f9;
+            outline: none;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        input::placeholder {
+            color: #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #ff2442;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 12px;
+        }
+        button:disabled {
+            background: #ff8ca1;
+            cursor: not-allowed;
+        }
+        .skip-btn {
+            background: transparent;
+            color: #999;
+            font-size: 14px;
+            text-decoration: underline;
+            padding: 0;
+            margin: 0;
+            height: auto;
+            cursor: pointer;
+        }
+        .error {
+            color: #ff4d4f;
+            font-size: 14px;
+            margin-top: 12px;
+            min-height: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="title">请输入邀请码<br/></div>
+        <input type="text" id="inviteCode" placeholder="8位邀请码" maxlength="8" />
+        <button id="activateBtn" onclick="activate()">立即激活</button>
+        <button class="skip-btn" onclick="skip()">跳过</button>
+        <div id="errorMessage" class="error"></div>
+    </div>
+
+    <script>
+        let lastAttemptTime = 0;
+        const MIN_RETRY_INTERVAL = 2000; // 2秒内不能重复点击
+
+        async function activate() {
+            const now = Date.now();
+            if (now - lastAttemptTime < MIN_RETRY_INTERVAL) {
+                showError('操作过于频繁，请稍后再试');
+                return;
+            }
+
+            const code = document.getElementById('inviteCode').value.trim();
+            if (!code) {
+                showError('请输入邀请码');
+                return;
+            }
+
+            if (code.length !== 8) {
+                showError('邀请码必须为8位');
+                return;
+            }
+
+            const unionid = localStorage.getItem('unionid');
+            if (!unionid) {
+                showError('请先登录账号');
+                return;
+            }
+
+            const btn = document.getElementById('activateBtn');
+            btn.disabled = true;
+            document.getElementById('errorMessage').textContent = '';
+
+            try {
+                const res = await fetch('/api/auth/activate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ unionid, invite_code: code })
+                });
+                const result = await res.json();
+
+                if (result.success) {
+                    const u = result.userInfo;
+                    localStorage.setItem('unionid', u.unionid);
+                    localStorage.setItem('membership_level', u.membership_level);
+                    localStorage.setItem('membership_expiry_time', u.membership_expiry_time);
+                    localStorage.setItem('token_balance', u.token_balance);
+                    localStorage.setItem('avatar_balance', u.avatar_balance.toFixed(1));
+                    localStorage.setItem('voice_balance', u.voice_balance.toFixed(1));
+                    localStorage.setItem('video_balance', u.video_balance.toFixed(1));
+                    window.location.href = 'home.html?v=2.0';
+                } else {
+                    showError(result.message || '激活失败');
+                    lastAttemptTime = Date.now();
+                }
+            } catch (err) {
+                console.error(err);
+                showError(err.message || '网络异常，请稍后重试');
+                lastAttemptTime = Date.now();
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        function showError(msg) {
+            document.getElementById('errorMessage').textContent = msg;
+        }
+
+        function skip() {
+            window.location.href = 'home.html?v=2.0';
+        }
+    </script>
+</body>
+</html>

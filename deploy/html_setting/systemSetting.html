@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>濞兼ê顦块幏?缂侇垵宕电划铏规媼閸撗呮瀭</title>
+    <link href="../css/material-icons.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            padding: 0 16px;
+        }
+
+        .title-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 17px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .nav-button:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        /* 闁哄倹婢橀·鍐媼閸撗呮瀭濡炪倛顫夐悧鍗烆嚕?*/
+        .settings-list {
+            background: white;
+            border-radius: 12px;
+            padding: 0 16px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .setting-value {
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* 鐎殿喒鍋撻柛蹇氭珪閻楀崬顕?*/
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #007AFF;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        .material-icons {
+            color: #ff3c64;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="title-bar">
+        <button class="nav-button back-btn" onclick="history.back()">
+            <i class="material-icons">arrow_back</i>
+        </button>
+        <div class="title">缂侇垵宕电划铏规媼閸撗呮瀭</div>
+    </div>
+     <!-- 闁哄倹婢橀·鍐媼閸撗呮瀭闁告劕鎳庨?-->
+     <div class="settings-list">
+        <div class="setting-item">
+            <div class="setting-info">闁搞儳鍋涢ˇ鏌ユ⒐閸喖顔婇梻鍕姇閸?/div>
+            <div class="setting-value">200閻?/div>
+        </div>
+        <div class="setting-item">
+            <div class="setting-info">濞戞挸锕ｇ粭鍛村棘閸ワ妇绠介柣锝嗙懆閻ゅ棗鈻?/div>
+            <div class="setting-value">10閺?/div>
+        </div>
+        <div class="setting-item">
+            <div class="setting-info">閻庣數顢婇惁钘壩熼垾宕団偓?/div>
+            <div class="setting-value">doubao-1.5-pro-32k</div>
+        </div>
+        <div class="setting-item">
+            <div class="setting-info">閻庡湱鍋炲鍌炲及閸撗佷粵FPS</div>
+            <label class="switch">
+                <input type="checkbox" id="fpsToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+
+    <script>
+        // 濡炪倗鏁诲浼村礉閻樼儤绁伴柡鍐煐椤ュ懘寮婚妷銉ф憼闁稿被鍔庢慨鎼佸箑?        document.addEventListener('DOMContentLoaded', function() {
+            const fpsToggle = document.getElementById('fpsToggle');
+            
+            // 濞寸姴绐卭calStorage濞戞搩鍙€楠炲繘宕ｉ弽顒夊晭缂?            const showFPS = localStorage.getItem('show_fps') === 'true';
+            fpsToggle.checked = showFPS;
+            
+            // 婵烇綀顕ф慨鐐哄礆閸ャ劌搴婂ù婊冾儎濞?            fpsToggle.addEventListener('change', function() {
+                localStorage.setItem('show_fps', this.checked);
+                // 閺夆晜鐟╅崳鐑藉矗椤栨瑤绨版繛锝堫嚙婵偟鈧湱鍋ゅ顖炲箳瑜嶉崺妗璓S闁哄嫬澧介妵姘舵儍閸曨亜鏁╅柣?                console.log('FPS闁哄嫬澧介妵姘舵偐閼哥鍋撴担绋垮殥闁哄洤鐡ㄩ弻?', this.checked);
+            });
+        });
+    </script>
+</body>
+</html>

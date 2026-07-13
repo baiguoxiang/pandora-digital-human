@@ -1,0 +1,8 @@
+﻿[build]
+  command = "echo Building static site"
+  output = "."
+
+[[redirects]]
+  from = "/*"
+  status = 200
+  force = true

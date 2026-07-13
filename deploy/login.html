@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>潘多拉</title>
+    <style>
+        :root {
+            --primary-color: #FF385C;
+            --secondary-color: #FE2C55;
+            --bg-color: #FFFFFF;
+            --text-primary: #1A1A1A;
+            --text-secondary: #666;
+            --border-color: #EBEBEB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            max-width: 450px;
+            margin: 0 auto;
+            background: var(--bg-color);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            z-index: 0;
+        }
+
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
+            z-index: 1;
+        }
+
+        .video-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;  /* 保证宽度覆盖容器 */
+    min-height: 100%; /* 保证高度覆盖容器 */
+    width: auto;
+    height: auto;
+    object-fit: cover; /* 关键属性：保持比例并覆盖容器 */
+    transform: translate(-50%, -50%); /* 居中定位 */
+    z-index: 0;
+}
+
+        /* 图片背景优化 */
+        .image-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+            object-fit: cover;
+            filter: brightness(0.85);
+        }
+
+        .image-bg.active {
+            opacity: 1;
+        }
+
+        .content-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 24px;
+        }
+
+        .branding {
+            text-align: center;
+            color: white;
+            margin-top: 30vh;
+            padding: 0 16px;
+        }
+
+        .slogan {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            opacity: 0.95;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+            margin-top: 8px;
+        }
+
+        .auth-section {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-bottom: 6vh;
+        }
+
+        .wechat-login-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 18px;
+            border-radius: 28px;
+            font-size: 17px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 12px 24px rgba(255, 56, 92, 0.24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .wechat-login-btn:active {
+            transform: scale(0.96);
+            box-shadow: 0 6px 12px rgba(255, 56, 92, 0.24);
+        }
+
+        .app-info {
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 400px) {
+            .slogan {
+                font-size: 2.4rem;
+                letter-spacing: -0.5px;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .wechat-login-btn {
+                font-size: 16px;
+                padding: 16px;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .branding {
+                margin-top: 15vh;
+            }
+
+            .auth-section {
+                margin-bottom: 4vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container" id="bg-container">
+        <div class="background-overlay"></div>
+    </div>
+    <div class="content-wrapper">
+        <div class="branding">
+            <h1 class="slogan">潘多拉</h1>
+            <p class="subtitle">数字生命</p>
+        </div>
+
+        <div class="auth-section">
+            <button class="wechat-login-btn" onclick="demoLogin()">
+                进入潘多拉体验
+            </button>
+        </div>
+    </div>
+    <footer style="
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+        color: rgba(255,255,255,0.8);
+        font-size: 12px;
+        line-height: 1.5;
+        z-index: 2;
+        padding: 0 20px;
+    ">
+        <div class="container">
+            <a href="https://beian.miit.gov.cn/" target="_blank" style="color: inherit; text-decoration: none;">
+                沪ICP备2024084340号-1
+            </a>
+            <p style="margin-top: 4px;">&copy; 2023-2025 上海云虚互伴科技有限公司 保留所有权利</p>
+        </div>
+    </footer>
+    <button class="wechat-login-btn" onclick="demoLogin()">进入潘多拉体验</button><script>function demoLogin() {
+  localStorage.setItem("jwt_token","demo");
+  localStorage.setItem("unionid","demo_"+Date.now());
+  localStorage.setItem("openid","demo");
+  localStorage.setItem("nickname","潘多拉用户");
+  localStorage.setItem("headimgurl","");
+  localStorage.setItem("membership_level","0");
+  localStorage.setItem("token_balance","10000");
+  localStorage.setItem("avatar_balance","5");
+  localStorage.setItem("voice_balance","3");
+  localStorage.setItem("video_balance","3");
+  localStorage.setItem("notify","0");
+  localStorage.setItem("voices_list",JSON.stringify([]));
+  localStorage.setItem("bg_list",JSON.stringify([]));
+    localStorage.setItem("roles_list",JSON.stringify([
+    {id:1,name:"小潘",avatar_url:"images/avatar1.svg",status:"success",unionid:"demo",avatar_id:"av1",version:"2.0"},
+    {id:2,name:"安安",avatar_url:"images/avatar2.svg",status:"success",unionid:"demo",avatar_id:"av2",version:"2.0"},
+    {id:3,name:"小智",avatar_url:"images/avatar3.svg",status:"success",unionid:"demo",avatar_id:"av3",version:"2.0"},
+    {id:4,name:"小美",avatar_url:"images/avatar4.svg",status:"success",unionid:"demo",avatar_id:"av4",version:"2.0"},
+    {id:5,name:"小文",avatar_url:"images/avatar5.svg",status:"success",unionid:"demo",avatar_id:"av5",version:"2.0"},
+    {id:6,name:"小勇",avatar_url:"images/avatar6.svg",status:"success",unionid:"demo",avatar_id:"av6",version:"2.0"}
+  ]));
+  window.location.href="home.html?v=2.0";
+}</script>
+</body>
+</html>

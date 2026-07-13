@@ -142,18 +142,13 @@ function createRoleCard(role) {
             rolesList[existingIndex] = { ...rolesList[existingIndex], ...result_role };
             localStorage.setItem('roles_list', JSON.stringify(rolesList));
 
-            if (role.version === 1 || role.version === "1") {
-                // 以private模式进入新版本
-                let use_tag = localStorage.getItem('use_tag');
-                if (use_tag == 4) {
-                    window.location.href = 'character2.html?avatar_mode=private';
-                }
-                else {
-                    window.location.href = 'character.html?avatar_mode=private';
-                }
-            } else {
-                XSAlert('1.0版本角色由于问题较多已不再支持，为你带来的不便深感抱歉。');
+                        // Navigate to role detail page (supports both v1 and v2.0)
+            let roleId = role.id || 1;
+            if (role.avatar_id) {
+                const roleMap = {"av1":1,"av2":2,"av3":3,"av4":4,"av5":5,"av6":6};
+                roleId = roleMap[role.avatar_id] || 1;
             }
+            window.location.href = 'create-role.html?id=' + roleId;
         });
     }
 

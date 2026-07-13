@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>濞兼ê顦块幏?閻忕偞娲滈妵姘辨媼閸撗呮瀭</title>
+    <link rel="stylesheet" href="../css/xs-styles.css">
+    <link href="../css/material-icons.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            padding: 0 16px;
+        }
+
+        .title-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 17px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .nav-button:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        .material-icons {
+            color: #ff3c64;
+        }
+
+        .create-btn {
+            background: linear-gradient(135deg, #ff7c7c, #ff5252);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: none;
+            font-weight: 500;
+            z-index: 1;
+        }
+
+        /* 闁哄倹婢橀·鍐媼閸撗呮瀭濡炪倛顫夐悧鍗烆嚕?*/
+        .settings-list {
+            background: white;
+            border-radius: 12px;
+            padding: 0 16px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .regenerate-btn {
+            background: #f0f2f5;
+            color: #606266;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .regenerate-btn:hover {
+            background: #e4e6e9;
+        }
+
+        .style-selection {
+            background: white;
+            border-radius: 12px;
+            padding: 20px 16px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .style-item {
+            position: relative;
+            aspect-ratio: 1;
+            background: #f5f5f5;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .style-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 20px;
+            height: 20px;
+            background: #4A90E2;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .style-item.selected .checkmark {
+            opacity: 1;
+        }
+
+        .style-label {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .role-select {
+            background: #f0f2f5;
+            border: 1px solid #e4e6e9;
+            border-radius: 16px;
+            padding: 6px 32px 6px 12px;
+            font-size: 14px;
+            color: #606266;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23606266' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 16px;
+        }
+
+        .copy-btn {
+            background: #4A90E2;
+            color: white;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: #357ABD;
+            transform: translateY(-1px);
+        }
+
+        /* 閻犲鍟弳锝夊箰婢舵劖灏﹂梻鍌滎棎缁?*/
+        .action-group {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+            min-width: 100px;
+        }
+
+        /* 闂佸墽鍋撶敮鎾及閸撗佷粵濞村吋锚鐎?*/
+        .link-value {
+            color: #606266;
+            font-size: 14px;
+            flex: 1 0 100%;
+            max-width: 100%;
+            text-align: right;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .style-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .style-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="title-bar">
+        <button class="nav-button back-btn" onclick="history.back()">
+            <i class="material-icons">arrow_back</i>
+        </button>
+        <div class="title">閻忕偞娲滈妵姘辨媼閸撗呮瀭</div>
+        <button class="create-btn" id="createBtn">闁告帗绋戠紓?/button>
+    </div>
+
+    <div class="settings-list">
+        <div class="setting-item">
+            <div class="setting-info">濞戞搩浜欏Ч澶岀磾閹达负鈧?/div>
+            <div class="action-group">
+                <span class="link-value"></span>
+                <button class="regenerate-btn" onclick="regenerate()">闂佹彃绉甸弻濠囨偨閻旂鐏?/button>
+                <button class="regenerate-btn copy-btn" onclick="copyCode(event)" title="濠㈣泛绉撮崺妤呮煣閻愵剙澶?>濠㈣泛绉撮崺?/button>
+            </div>
+        </div>
+        <div class="setting-item">
+            <div class="setting-info">閻庣數顢婇惁鑺ョ閾忕懓鈷?/div>
+            <div class="action-group">
+                <select class="role-select" id="roleSelect">
+                    <!-- 闂侇偄顦甸妴宥夋焻濮樺磭绠朖S闁告柣鍔嶉埀顑胯兌閺佹捇骞?-->
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="style-selection">
+        <h3 class="section-title">缂傚啯鍨块妴澶嬵槹鎼淬垻澹愰梺顐㈩槹鐎?/h3>
+        <div class="style-grid">
+            <div class="style-container">
+                <div class="style-item" data-style-id="0">
+                    <div class="checkmark">闁?/div>
+                    <img src="https://濞兼ê顦块幏?oss-cn-beijing.aliyuncs.com/public/web_style_id0.jpg" class="style-thumbnail" alt="闁活澀绲婚惁鐣屾喆閸℃侗鏆?">
+                </div>
+                <div class="style-label">濡炲瀛╅悧?</div>
+            </div>
+            <div class="style-container">
+                <div class="style-item" data-style-id="1">
+                    <div class="checkmark">闁?/div>
+                    <img src="https://濞兼ê顦块幏?oss-cn-beijing.aliyuncs.com/public/web_style_id1.jpg" class="style-thumbnail" alt="闁活澀绲婚惁鐣屾喆閸℃侗鏆?">
+                </div>
+                <div class="style-label">濡炲瀛╅悧?</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js_common/xs-components.js?v=1.2"></script>
+    <script>
+        const unionid = localStorage.getItem('unionid');
+        if (!unionid) {
+            window.location.href = '/login.html';
+        }
+        let rolesList;
+        rolesList = JSON.parse(localStorage.getItem('roles_list')) || [];
+        const select = document.getElementById('roleSelect');
+
+        let web_id;
+        let avatar_id;
+        let web_style_id;
+        const baseLink = 'pandora-temp.pages.dev/api/cus?w=';
+
+        // 闁告艾鏈鐐淬亜閻㈠憡妗ㄩ柡浣哄瀹?        window.addEventListener('storage', (event) => {
+            if (event.key === 'roles_list') {
+                rolesList = JSON.parse(localStorage.getItem('roles_list')) || [];
+                console.log('閻熸瑦甯熸竟濠囧礆濡ゅ嫨鈧啫顔忛崣澶嬬函闁?', rolesList);
+                initRoleSelect();
+            }
+        });
+
+        function generateShortId(length = 8) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            const cryptoArray = new Uint8Array(length);
+            window.crypto.getRandomValues(cryptoArray);
+            return Array.from(cryptoArray)
+                .map((byte) => chars[byte % chars.length])
+                .join('');
+        }
+
+        async function initWebID() {
+            try {
+                const response = await fetch('/api/auth/get_web_id', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        unionid: unionid
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.detail || '閻犲洭鏀遍惇鐗堝緞鏉堫偉袝');
+                }
+                console.log("GGGGG", result)
+                web_id = result.web_id;
+                avatar_id = result.avatar_id;
+                web_style_id = result.web_style_id;
+
+                localStorage.setItem('web_style_id', web_style_id);
+                document.querySelector('.link-value').textContent = baseLink + web_id;
+                select.value = avatar_id;
+
+            } catch (error) {
+                console.error('get_web_id濠㈡儼绮剧憴?', error.message);
+                XSAlert(`闁兼儳鍢茶ぐ鍥嚊椤忓嫮鏆板☉鏂款槺缂嶅銇勯崗闀愮箚闁诡収鍨伴妵鎴犳嫻椤?;
+            }
+        }
+
+        // 闁告帗绻傞～鎰板礌閺嶎剦娼￠柤瑙勭叀閳ь剙顦扮€?        function initRoleSelect() {
+            // 婵炴挸鎳愰埞鏍偝閻楀牊绠掗梺顐㈩樀閵?            select.innerHTML = '';
+
+            rolesList.forEach(role => {
+                if (role.version > 0) {
+                    const option = document.createElement('option');
+                    option.value = role.avatar_id;
+                    option.textContent = role.avatar_name;
+                    select.appendChild(option);
+                }
+            });
+        }
+
+        // 濡炲瀛╅悧鎼佹焻婢跺顏ラ梺顐ｆ缁?        function initStyleSelection() {
+            const styles = document.querySelectorAll('.style-item');
+
+            // 闁诡厹鍨归ˇ鍙夌┍濠靛棛鎽犻柣銊ュ閻楀崬顕?            if (web_style_id) {
+                const target = document.querySelector(`[data-style-id="${web_style_id}"]`);
+                target?.classList.add('selected');
+            }
+            console.log("GGGGG2", web_style_id)
+
+            styles.forEach(item => {
+                item.addEventListener('click', () => {
+                    styles.forEach(i => i.classList.remove('selected'));
+                    item.classList.add('selected');
+                    localStorage.setItem('web_style_id', item.dataset.styleId);
+                });
+            });
+        }
+
+        function copyCode(event) {
+            const btn = event.target;
+            const text = document.querySelector('.link-value').textContent;
+            console.log("copyCode", text)
+            if (text && text !== '闁哄啰濞€閹藉ジ骞?) {
+                navigator.clipboard.writeText(text).then(() => {
+                    btn.textContent = '闁?鐎瑰憡褰冮ˇ鏌ュ礆?;
+                    btn.style.backgroundColor = '#50C878'; // 闁瑰瓨鍔曟慨娑㈠矗瀹ュ娲Λ鐗堢矎婢?                    setTimeout(() => {
+                        btn.textContent = '濠㈣泛绉撮崺?;
+                        btn.style.backgroundColor = '#4A90E2';
+                    }, 1500);
+                }).catch(err => {
+                    btn.textContent = '濠㈣泛绉撮崺妤佸緞鏉堫偉袝';
+                    setTimeout(() => btn.textContent = '濠㈣泛绉撮崺?, 1000);
+                });
+            } else {
+                btn.textContent = '闁哄啰濮撮崬瀵糕偓?;
+                setTimeout(() => btn.textContent = '濠㈣泛绉撮崺?, 1000);
+            }
+        };
+
+        function regenerate() {
+            const randomString = generateShortId();
+            document.querySelector('.link-value').textContent = baseLink + randomString;
+
+            // 闁圭粯鍔掔欢鐢垫喆閸℃凹娼曢柛娆忕Ч椤?            this.textContent = '闁汇垻鍠愰崹姘▔?..';
+            setTimeout(() => {
+                this.textContent = '闂佹彃绉甸弻濠囨偨閻旂鐏?;
+            }, 500);
+        }
+
+        function checkMembershipValid() {
+            const membership_level = parseInt(localStorage.getItem('membership_level')) || 0;
+            const membership_expiry_time = localStorage.getItem('membership_expiry_time'); //闁哄秶鍘х槐锛勭尵鐠佽櫕濡?2025-03-23 00:00:00'
+            if (membership_level > 0 && membership_expiry_time) {
+                const expiryDate = new Date(membership_expiry_time);
+                console.log("AAAA2", expiryDate, new Date())
+                if (expiryDate > new Date()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // 闁告帗绋戠紓鎾诲礉閻旇鍘?        document.getElementById('createBtn').addEventListener('click', async () => {
+            if (!checkMembershipValid()) {
+                XSAlert('闁哄牜浜滅槐鎴﹀触椤栨瑧绐楅柛娑櫳戦崹銊﹀濮橆剚鍠呯€规瓕灏换鍐嫉?);
+                return;
+            }
+
+            const settings = {
+                unionid: unionid,
+                avatar_id: select.value,
+                web_id: document.querySelector('.link-value').textContent.slice(21),
+                web_style_id: document.querySelector('.style-item.selected').dataset.styleId
+            };
+            // 闁糕晞娅ｉ、鍛村冀閿熺姷宕?            if (!settings.web_id) {
+                XSAlert('闁哄牜浜為弫鎾诲箣閹邦厽绠掗柡浣哥墢缂嶅銇勯悽鍛婃嚑闁?);
+                return;
+            }
+            if (!settings.avatar_id) {
+                XSAlert('闁哄牜浜埀顒€顦扮€氥劎鎲撮幒鏇烆棌');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/custom_web', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(settings)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.detail || '閻犲洭鏀遍惇鐗堝緞鏉堫偉袝');
+                }
+
+                XSAlert('缂傚啯鍨块妴澶愭煀瀹ュ洨鏋傞柟瀛樺姇婵盯鏁?);
+                // 闁告瑯鍨堕埀顒€顧€缁变即骞嬮幇顒€顫犻柛姘唉閻戯附娼浣哥仐闁告帡鏀遍弻濠囧极閻楀牆绁?            } catch (error) {
+                console.error('濞ｅ洦绻傞悺銊﹀緞鏉堫偉袝:', error);
+                XSAlert("缂傚啯鍨块妴澶愭煀瀹ュ洨鏋傚鎯扮簿鐟?);
+            }
+        });
+
+        // 闁告帗绻傞～鎰板礌?        document.addEventListener('DOMContentLoaded', async () => {
+            initRoleSelect();
+            await initWebID();
+            initStyleSelection();
+        });
+    </script>
+</body>
+</html>

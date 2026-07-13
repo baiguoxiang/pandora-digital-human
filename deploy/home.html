@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>潘多拉</title>
+    <link rel="stylesheet" href="css/xs-styles.css">
+    <link href="css/material-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/gallery.css">
+    <link rel="stylesheet" href="css/discovery.css">
+    <link rel="stylesheet" href="css/my.css">
+</head>
+<body>
+    <!-- 形象展示页 -->
+    <div id="gallery-page" class="page-container page-active">
+        <div class="grid-gallery">
+        </div>
+    </div>
+
+    <div id="discovery-page" class="page-container">
+        <div class="discovery_container" id="discovery_cardsContainer"></div>
+        <div class="discovery_load-more">
+            <button class="discovery_load-more-btn" id="discovery_loadMoreBtn">
+                <span class="material-icons">refresh</span>
+                加载更多内容
+            </button>
+        </div>
+    </div>
+
+    <!-- 个人信息页 -->
+    <div id="profile-page" class="page-container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="headimg"></div>
+                <div class="profile-info">
+                    <div class="nickname">--</div>
+                    <div class="vip-duration" id="vipDuration"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-card">
+            <div class="quota-section">
+                <div class="quota-header">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="quota-value">能量：30000/30000</div>
+                        <button class="refresh-btn" title="刷新" onclick="debouncedRefreshBalance()">
+                            <span class="material-icons">refresh</span>
+                        </button>
+                    </div>
+                    <button class="recharge-btn" onclick="applyPayPage()">立即充值</button>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <div class="quota-items-horizontal">
+                    <div class="quota-card"  onclick="showAvatarTip()">
+                        <div class="quota-header">
+                            <span class="quota-label">
+                                <span class="material-icons">face</span>
+                            </span>
+                            <div class="quota-count" id="avatarBalance">5</div>
+                        </div>
+                        <div class="quota-title">自定义形象</div>
+                    </div>
+            
+                    <div class="quota-card" onclick="showVoiceTip()">
+                        <div class="quota-header">
+                            <span class="quota-label">
+                                <span class="material-icons">mic</span>
+                            </span>
+                            <div class="quota-count" id="voiceBalance">3</div>
+                        </div>
+                        <div class="quota-title">自定义语音</div>
+                    </div>
+            
+                    <div class="quota-card" onclick="showVideoTip()">
+                        <div class="quota-header">
+                            <span class="quota-label">
+                                <span class="material-icons">animation</span>
+                            </span>
+                            <div class="quota-count" id="videoBalance">3</div>
+                        </div>
+                        <div class="quota-title">图片转视频</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-card">
+            <ul class="settings-list">
+                <!-- <li class="setting-item" onclick="window.location.href='voice-manager/index.html?v=2'">
+                    <span class="material-icons icon">library_music</span>
+                    <span class="item-text">语音克隆</span>
+                    <span class="material-icons arrow">chevron_right</span>
+                </li> -->
+                <li class="setting-item" onclick="window.location.href='html_setting/background.html'">
+                    <span class="material-icons icon">wallpaper</span>
+                    <span class="item-text">背景设置</span>
+                    <span class="material-icons arrow">chevron_right</span>
+                </li>
+                <!-- <li class="setting-item" onclick="window.location.href='html_setting/personalWeb.html'">
+                    <span class="material-icons icon">palette</span>
+                    <span class="item-text">展示设置</span>
+                    <span class="material-icons arrow">chevron_right</span>
+                </li> -->
+                <li class="setting-item" onclick="window.location.href='html_setting/systemSetting.html'">
+                    <span class="material-icons icon">settings</span>
+                    <span class="item-text">系统设置</span>
+                    <span class="material-icons arrow">chevron_right</span>
+                </li>
+                <li class="setting-item" onclick="window.location.href='html_setting/privacy.html'">
+                    <span class="material-icons icon">privacy_tip</span>
+                    <span class="item-text">隐私协议</span>
+                    <span class="material-icons arrow">chevron_right</span>
+                </li>
+                <li class="setting-item" onclick="window.location.href='html_setting/contact.html'">
+                    <span class="material-icons icon">contacts</span>
+                    <span class="item-text">交流联系</span>
+                    <span class="material-icons arrow">chevron_right</span>
+                </li>
+                <li class="setting-item" onclick="window.location.href='html_setting/app.html'">
+                    <span class="material-icons icon">contacts</span>
+                    <span class="item-text">app激活</span>
+                    <span class="material-icons arrow">chevron_right</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="nav-bar">
+        <div class="nav-item active" onclick="showPage('gallery-page', event)">
+            <span class="material-icons">explore</span>
+            主页
+        </div>
+        <div class="nav-item active" onclick="showPage('discovery-page', event)">
+            <span class="material-icons">explore</span>
+            发现
+        </div>
+        <div class="nav-item" onclick="showPage('profile-page', event)">
+            <span class="material-icons">person</span>
+            我的
+        </div>
+    </nav>
+    <script src="js/xs-components.js?v=2.0"></script>
+    <script src="js/page/discovery.js?v=2.0"></script>
+    <script src="js/home.js?v=2.0"></script>
+    <script>
+        let notify = localStorage.getItem('notify', 0);
+        function checkAndShowAnnouncement() {
+            const currentDate = new Date();
+            const endDate = new Date('2025-07-24');
+            if (currentDate <= endDate && notify > 0) {
+                XSAlert("潘多拉已升级至1.1");
+                localStorage.setItem('notify', 0);
+            }
+        }
+        window.onload = checkAndShowAnnouncement;
+    </script>
+</body>
+</html>
