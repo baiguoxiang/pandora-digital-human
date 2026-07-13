@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>鐧诲綍閫夋嫨</title>
+    <title>登录选择</title>
     <link href="../css/material-icons.css" rel="stylesheet">
     <style>
         :root {
@@ -38,7 +38,7 @@
             overflow: hidden;
         }
 
-        /* 鑳屾櫙瑁呴グ */
+        /* 背景装饰 */
         .bg-decoration {
             position: fixed;
             inset: 0;
@@ -77,7 +77,7 @@
             100% { transform: translate(30px, 20px) scale(1.1); }
         }
 
-        /* 鍏ュ満鍔ㄧ敾 */
+        /* 入场动画 */
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -101,7 +101,7 @@
             overflow: hidden;
         }
 
-        /* 淇℃伅灞曠ず鍖?*/
+        /* 信息展示区 */
         .info-section {
             background: #fafafa;
             border-radius: 16px;
@@ -153,7 +153,7 @@
             font-weight: 600;
         }
 
-        /* App鐮佽緭鍏ュ尯鍩?*/
+        /* App码输入区域 */
         .app-code-section {
             margin-bottom: 20px;
         }
@@ -200,7 +200,7 @@
             background: var(--brand-red-light);
         }
 
-        /* 鎸夐挳缁?*/
+        /* 按钮组 */
         .btn-group {
             display: flex;
             flex-direction: column;
@@ -241,7 +241,7 @@
             transform: translateY(0) scale(0.98);
         }
         
-        /* 绂佺敤鐘舵€?*/
+        /* 禁用状态 */
         .btn-main:disabled {
             background: #ccc;
             box-shadow: none;
@@ -273,7 +273,7 @@
             height: 100%;
         }
 
-        /* 鍒嗗壊绾?*/
+        /* 分割线 */
         .divider {
             display: flex;
             align-items: center;
@@ -291,7 +291,7 @@
             font-size: 14px;
         }
 
-        /* 搴曢儴閾炬帴 */
+        /* 底部链接 */
         .footer-note {
             margin-top: 24px;
             font-size: 14px;
@@ -309,7 +309,7 @@
             color: var(--brand-red);
         }
 
-        /* 鍔犺浇鍔ㄧ敾 */
+        /* 加载动画 */
         .btn.loading {
             pointer-events: none;
             opacity: 0.8;
@@ -332,7 +332,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* 绉诲姩绔€傞厤 */
+        /* 移动端适配 */
         @media (max-width: 400px) {
             .card {
                 padding: 24px 20px;
@@ -344,7 +344,7 @@
             }
         }
 
-        /* 鍑忓皯鍔ㄧ敾鍋忓ソ */
+        /* 减少动画偏好 */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -354,37 +354,39 @@
     </style>
 </head>
 <body>
-    <!-- 鑳屾櫙瑁呴グ -->
+    <!-- 背景装饰 -->
     <div class="bg-decoration">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
     </div>
 
-    <!-- 涓诲唴瀹?-->
+    <!-- 主内容 -->
     <div class="container">
         <div class="card">
-            <!-- 1. 淇℃伅鎻愮ず鍖?-->
+            <!-- 1. 信息提示区 -->
             <div class="info-section">
                 <div class="info-item">
-                    <span class="info-badge badge-app">鎺ㄨ崘</span>
+                    <span class="info-badge badge-app">推荐</span>
                     <div class="info-text">
-                        <strong>App鐮佸揩閫熻繘鍏?/strong><br>
-                        寰俊涓墦寮€ pandora-temp.pages.dev <br>
-                        杩涘叆銆屾垜鐨勩€嶉〉闈?<br>
-                        鐢宠App鐮?                    </div>
+                        <strong>App码快速进入</strong><br>
+                        微信中打开 pandora.example.com <br>
+                        进入「我的」页面 <br>
+                        申请App码
+                    </div>
                 </div>
                 <div class="info-item" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-color);">
-                    <span class="info-badge badge-wechat">澶囬€?/span>
+                    <span class="info-badge badge-wechat">备选</span>
                     <div class="info-text">
-                        <strong>寰俊鎵爜鐧诲綍</strong><br>
-                        鍑嗗鍙︿竴閮ㄦ墜鏈?                        寰俊鎵爜鎺堟潈鐧诲綍
+                        <strong>微信扫码登录</strong><br>
+                        准备另一部手机
+                        微信扫码授权登录
                     </div>
                 </div>
             </div>
 
-            <!-- 2. App鐮佽緭鍏ュ尯 (涓昏鎿嶄綔缃《) -->
+            <!-- 2. App码输入区 (主要操作置顶) -->
             <div class="app-code-section">
-                <span class="section-label">璇疯緭鍏?6 浣?App 鐮?/span>
+                <span class="section-label">请输入 6 位 App 码</span>
                 <div class="code-input-wrapper" id="codeInputWrapper">
                     <input type="text" maxlength="1" class="code-input" data-index="0" placeholder=" " autocomplete="off">
                     <input type="text" maxlength="1" class="code-input" data-index="1" placeholder=" " autocomplete="off">
@@ -396,38 +398,38 @@
             </div>
 
             <div class="btn-group">
-                <!-- App鐮佺櫥褰曟寜閽?-->
+                <!-- App码登录按钮 -->
                 <button class="btn btn-main" id="appBtn" onclick="appCodeLogin()" disabled>
                     <span class="btn-icon">
                          <svg viewBox="0 0 24 24" fill="currentColor">
                             <path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/>
                         </svg>
                     </span>
-                    <span class="btn-text">App鐮佸揩閫熻繘鍏?/span>
+                    <span class="btn-text">App码快速进入</span>
                 </button>
 
-                <!-- 鍒嗗壊绾?-->
-                <div class="divider"><span>鎴?/span></div>
+                <!-- 分割线 -->
+                <div class="divider"><span>或</span></div>
 
-                <!-- 寰俊鐧诲綍鎸夐挳 -->
+                <!-- 微信登录按钮 -->
                 <button class="btn btn-secondary" id="wechatBtn" onclick="wechatLogin()">
                     <span class="btn-icon" style="color: var(--wechat-green);">
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178A1.17 1.17 0 014.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178 1.17 1.17 0 01-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 01.598.082l1.584.926a.272.272 0 00.14.045c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.49.49 0 01.176-.553C23.1 18.119 24 16.513 24 14.731c0-3.372-3.094-5.873-7.062-5.873zm-2.445 2.522c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982z"/>
                         </svg>
                     </span>
-                    <span class="btn-text">寰俊鎵爜鐧诲綍</span>
+                    <span class="btn-text">微信扫码登录</span>
                 </button>
             </div>
 
             <div class="footer-note">
-                娌℃湁App鐮侊紵澶嶅埗 pandora-temp.pages.dev 鍒板井淇℃墦寮€</a>
+                没有App码？复制 pandora.example.com 到微信打开</a>
             </div>
         </div>
     </div>
 
     <script>
-        // --- 閰嶇疆閮ㄥ垎 ---
+        // --- 配置部分 ---
         const urlParams = new URLSearchParams(window.location.search);
         let isLive = 0;
         if (urlParams.has('CS')) {
@@ -446,14 +448,14 @@
         };
 
         const redirect_uri = encodeURIComponent(
-            `https://www.pandora-temp.pages.dev/weCB.html?platform=${config.platform}&Live=${isLive}&v=1.1`
+            `https://www.pandora.example.com/weCB.html?platform=${config.platform}&Live=${isLive}&v=1.1`
         );
 
         const authUrl = isWechat 
             ? `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${config.appid}&redirect_uri=${redirect_uri}&response_type=code&scope=${config.scope}&state=STATE#wechat_redirect`
             : `https://open.weixin.qq.com/connect/qrconnect?appid=${config.appid}&redirect_uri=${redirect_uri}&response_type=code&scope=${config.scope}&state=STATE#wechat_redirect`;
 
-        // --- 鍔熻兘鍑芥暟 ---
+        // --- 功能函数 ---
 
         function wechatLogin() {
             window.location.href = authUrl;
@@ -485,7 +487,7 @@
             const btn = document.getElementById('appBtn');
             btn.classList.add('loading');
             
-            fetch('https://www.pandora-temp.pages.dev/api/auth/login_app_code', {
+            fetch('https://www.pandora.example.com/api/auth/login_app_code', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -517,11 +519,11 @@
             .catch(error => {
                 console.error('app code login failed:', error);
                 btn.classList.remove('loading');
-                alert('App鐮佺櫥褰曞け璐ワ紝璇锋鏌pp鐮佹槸鍚︽纭垨鏄惁杩囨湡');
+                alert('App码登录失败，请检查App码是否正确或是否过期');
             });
         }
 
-        // --- 杈撳叆妗嗕氦浜掗€昏緫 ---
+        // --- 输入框交互逻辑 ---
         const codeInputWrapper = document.getElementById('codeInputWrapper');
         const inputs = codeInputWrapper.querySelectorAll('.code-input');
 

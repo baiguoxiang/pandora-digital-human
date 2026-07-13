@@ -55,16 +55,16 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    min-width: 100%;  /* 淇濊瘉瀹藉害瑕嗙洊瀹瑰櫒 */
-    min-height: 100%; /* 淇濊瘉楂樺害瑕嗙洊瀹瑰櫒 */
+    min-width: 100%;  /* 保证宽度覆盖容器 */
+    min-height: 100%; /* 保证高度覆盖容器 */
     width: auto;
     height: auto;
-    object-fit: cover; /* 鍏抽敭灞炴€э細淇濇寔姣斾緥骞惰鐩栧鍣?*/
-    transform: translate(-50%, -50%); /* 灞呬腑瀹氫綅 */
+    object-fit: cover; /* 关键属性：保持比例并覆盖容器 */
+    transform: translate(-50%, -50%); /* 居中定位 */
     z-index: 0;
 }
 
-        /* 鍥剧墖鑳屾櫙浼樺寲 */
+        /* 图片背景优化 */
         .image-bg {
             position: absolute;
             width: 100%;
@@ -188,12 +188,12 @@
     <div class="content-wrapper">
         <div class="branding">
             <h1 class="slogan">潘多拉</h1>
-            <p class="subtitle">鏁板瓧鐢熷懡</p>
+            <p class="subtitle">数字生命</p>
         </div>
 
         <div class="auth-section">
             <button class="wechat-login-btn" onclick="wechatLogin()">
-                寰俊涓€閿櫥褰?
+                微信一键登录
             </button>
         </div>
     </div>
@@ -210,9 +210,9 @@
     ">
         <div class="container">
             <a href="https://beian.miit.gov.cn/" target="_blank" style="color: inherit; text-decoration: none;">
-                娌狪CP澶?024084340鍙?1
+                
             </a>
-            <p style="margin-top: 4px;">&copy; 2023-2025 涓婃捣浜戣櫄浜掍即绉戞妧鏈夐檺鍏徃 淇濈暀鎵€鏈夋潈鍒?/p>
+            <p style="margin-top: 4px;">&copy; 2023-2025 潘多拉 保留所有权利</p>
         </div>
     </footer>
     <script src="js2/l.js"></script>

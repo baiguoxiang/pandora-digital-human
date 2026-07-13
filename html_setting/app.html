@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>潘多拉-App涓嬭浇</title>
+    <title>濞兼ê顦块幏?App濞戞挸顑堝ù?/title>
     <link href="../css/material-icons.css" rel="stylesheet">
     <style>
         * {
@@ -193,38 +193,37 @@
         <button class="nav-button" onclick="history.back()">
             <i class="material-icons">arrow_back</i>
         </button>
-        <div class="title">App涓嬭浇</div>
+        <div class="title">App濞戞挸顑堝ù?/div>
     </div>
 
     <div class="container">
         <div class="card">
             <div class="card-title">
                 <i class="material-icons">android</i>
-                涓嬭浇 App
+                濞戞挸顑堝ù?App
             </div>
             <div class="download-info">
                 <i class="material-icons download-icon">phone_android</i>
                 <div class="download-details">
-                    <h3>潘多拉 Android</h3>
-                    <p>鐗堟湰 1.0 | 澶у皬 1.0 MB</p>
+                    <h3>濞兼ê顦块幏?Android</h3>
+                    <p>闁绘鐗婂﹢?1.0 | 濠㈠爢鍐瘓 1.0 MB</p>
                 </div>
             </div>
-            <a href="https://www.pgyer.com/潘多拉-android" target="_blank" class="download-btn">
-                鐐瑰嚮涓嬭浇
-            </a>
+            <a href="https://www.pgyer.com/濞兼ê顦块幏?android" target="_blank" class="download-btn">
+                闁绘劗鎳撻崵顔界▔鐎ｎ厽绁?            </a>
         </div>
 
         <div class="card">
             <div class="card-title">
                 <i class="material-icons">qr_code_2</i>
-                App 鐧诲綍鐮?            </div>
+                App 闁谎嗩嚙缂嶅秹鎯?            </div>
             <div class="code-display">
-                <div class="code-number empty-state">鐐瑰嚮涓嬫柟鎸夐挳鐢熸垚</div>
+                <div class="code-number empty-state">闁绘劗鎳撻崵顔界▔鐎ｎ偅鐓欓柟绋款樀閹告娊鎮介悢绋跨亣</div>
                 <div class="code-hint"></div>
                 <div class="code-expiry"></div>
             </div>
             <button class="generate-btn" id="generateBtn" onclick="generateCode()">
-                鐢熸垚鐧诲綍鐮?            </button>
+                闁汇垻鍠愰崹姘舵儌鐠囪尙绉块柣?            </button>
             <div class="countdown" id="countdown"></div>
         </div>
     </div>
@@ -249,44 +248,44 @@
                     })
                 });
                 
-                if (!response.ok) throw new Error('鐢熸垚澶辫触');
+                if (!response.ok) throw new Error('闁汇垻鍠愰崹姘緞鏉堫偉袝');
                 const data = await response.json();
 
                 if (data.app_code) {
                     codeNumber.textContent = data.app_code;
                     codeNumber.classList.remove('empty-state');
-                    codeHint.textContent = '璇峰湪 App 涓緭鍏ユ鐧诲綍鐮?;
+                    codeHint.textContent = '閻犲洤鍢插﹢?App 濞戞搩鍙€缁额參宕楅妷锔诲妰闁谎嗩嚙缂嶅秹鎯?;
                     
                     let remainingTime = 120;
                     clearInterval(expiryTimer);
                     
                     expiryTimer = setInterval(() => {
                         remainingTime--;
-                        codeExpiry.textContent = `姝ょ櫥褰曠爜浠呭湪 ${Math.floor(remainingTime / 60)}:${(remainingTime % 60).toString().padStart(2, '0')} 鍐呮湁鏁坄;
+                        codeExpiry.textContent = `婵縿鍊楀▍銉ㄣ亹閺囩姷鍨冲ù鐘叉噹濠€?${Math.floor(remainingTime / 60)}:${(remainingTime % 60).toString().padStart(2, '0')} 闁告劕鎳忓﹢渚€寮崸?
                         
                         if (remainingTime <= 0) {
                             clearInterval(expiryTimer);
-                            codeNumber.textContent = '宸茶繃鏈?;
+                            codeNumber.textContent = '鐎规瓕灏换鍐嫉?;
                             codeNumber.classList.add('empty-state');
                             codeHint.textContent = codeExpiry.textContent = '';
                         }
                     }, 1000);
                 }
             } catch (error) {
-                codeNumber.textContent = '鐢熸垚澶辫触';
+                codeNumber.textContent = '闁汇垻鍠愰崹姘緞鏉堫偉袝';
                 codeNumber.classList.add('empty-state');
-                codeHint.textContent = '璇风◢鍚庨噸璇?;
+                codeHint.textContent = '閻犲洭顥撻埣銏ゅ触鎼淬劌娅㈤悹?;
                 codeExpiry.textContent = '';
             }
 
             btn.disabled = true;
             let cooldown = 10;
-            countdownEl.textContent = `璇风瓑寰?${cooldown} 绉掑悗鍐嶆鐢熸垚`;
+            countdownEl.textContent = `閻犲洭顥撻悺鎴濐嚗?${cooldown} 缂佸甯掗幃妤呭礃瀹ュ棭鍋ч柣銏㈠枑閸ㄦ瓪;
             clearInterval(cooldownTimer);
             
             cooldownTimer = setInterval(() => {
                 cooldown--;
-                countdownEl.textContent = cooldown > 0 ? `璇风瓑寰?${cooldown} 绉掑悗鍐嶆鐢熸垚` : '';
+                countdownEl.textContent = cooldown > 0 ? `閻犲洭顥撻悺鎴濐嚗?${cooldown} 缂佸甯掗幃妤呭礃瀹ュ棭鍋ч柣銏㈠枑閸ㄦ瓪 : '';
                 if (cooldown <= 0) btn.disabled = false;
             }, 1000);
         }

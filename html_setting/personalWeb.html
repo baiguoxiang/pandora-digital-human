@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>潘多拉-灞曠ず璁剧疆</title>
+    <title>濞兼ê顦块幏?閻忕偞娲滈妵姘辨媼閸撗呮瀭</title>
     <link rel="stylesheet" href="../css/xs-styles.css">
     <link href="../css/material-icons.css" rel="stylesheet">
     <style>
@@ -72,7 +72,7 @@
             z-index: 1;
         }
 
-        /* 鏂板璁剧疆椤规牱寮?*/
+        /* 闁哄倹婢橀·鍐媼閸撗呮瀭濡炪倛顫夐悧鍗烆嚕?*/
         .settings-list {
             background: white;
             border-radius: 12px;
@@ -197,7 +197,7 @@
             transform: translateY(-1px);
         }
 
-        /* 璋冩暣鎸夐挳闂磋窛 */
+        /* 閻犲鍟弳锝夊箰婢舵劖灏﹂梻鍌滎棎缁?*/
         .action-group {
             display: flex;
             flex-direction: row;
@@ -208,7 +208,7 @@
             min-width: 100px;
         }
 
-        /* 閾炬帴鏄剧ず浼樺寲 */
+        /* 闂佸墽鍋撶敮鎾及閸撗佷粵濞村吋锚鐎?*/
         .link-value {
             color: #606266;
             font-size: 14px;
@@ -238,45 +238,45 @@
         <button class="nav-button back-btn" onclick="history.back()">
             <i class="material-icons">arrow_back</i>
         </button>
-        <div class="title">灞曠ず璁剧疆</div>
-        <button class="create-btn" id="createBtn">鍒涘缓</button>
+        <div class="title">閻忕偞娲滈妵姘辨媼閸撗呮瀭</div>
+        <button class="create-btn" id="createBtn">闁告帗绋戠紓?/button>
     </div>
 
     <div class="settings-list">
         <div class="setting-item">
-            <div class="setting-info">涓汉缃戦〉</div>
+            <div class="setting-info">濞戞搩浜欏Ч澶岀磾閹达负鈧?/div>
             <div class="action-group">
                 <span class="link-value"></span>
-                <button class="regenerate-btn" onclick="regenerate()">閲嶆柊鐢熸垚</button>
-                <button class="regenerate-btn copy-btn" onclick="copyCode(event)" title="澶嶅埗閾炬帴">澶嶅埗</button>
+                <button class="regenerate-btn" onclick="regenerate()">闂佹彃绉甸弻濠囨偨閻旂鐏?/button>
+                <button class="regenerate-btn copy-btn" onclick="copyCode(event)" title="濠㈣泛绉撮崺妤呮煣閻愵剙澶?>濠㈣泛绉撮崺?/button>
             </div>
         </div>
         <div class="setting-item">
-            <div class="setting-info">瀵硅瘽浜虹墿</div>
+            <div class="setting-info">閻庣數顢婇惁鑺ョ閾忕懓鈷?/div>
             <div class="action-group">
                 <select class="role-select" id="roleSelect">
-                    <!-- 閫夐」閫氳繃JS鍔ㄦ€佺敓鎴?-->
+                    <!-- 闂侇偄顦甸妴宥夋焻濮樺磭绠朖S闁告柣鍔嶉埀顑胯兌閺佹捇骞?-->
                 </select>
             </div>
         </div>
     </div>
 
     <div class="style-selection">
-        <h3 class="section-title">缃戦〉椋庢牸閫夋嫨</h3>
+        <h3 class="section-title">缂傚啯鍨块妴澶嬵槹鎼淬垻澹愰梺顐㈩槹鐎?/h3>
         <div class="style-grid">
             <div class="style-container">
                 <div class="style-item" data-style-id="0">
-                    <div class="checkmark">鉁?/div>
-                    <img src="https://潘多拉.oss-cn-beijing.aliyuncs.com/public/web_style_id0.jpg" class="style-thumbnail" alt="鐢佃瘽瑙嗛1">
+                    <div class="checkmark">闁?/div>
+                    <img src="https://濞兼ê顦块幏?oss-cn-beijing.aliyuncs.com/public/web_style_id0.jpg" class="style-thumbnail" alt="闁活澀绲婚惁鐣屾喆閸℃侗鏆?">
                 </div>
-                <div class="style-label">椋庢牸1</div>
+                <div class="style-label">濡炲瀛╅悧?</div>
             </div>
             <div class="style-container">
                 <div class="style-item" data-style-id="1">
-                    <div class="checkmark">鉁?/div>
-                    <img src="https://潘多拉.oss-cn-beijing.aliyuncs.com/public/web_style_id1.jpg" class="style-thumbnail" alt="鐢佃瘽瑙嗛2">
+                    <div class="checkmark">闁?/div>
+                    <img src="https://濞兼ê顦块幏?oss-cn-beijing.aliyuncs.com/public/web_style_id1.jpg" class="style-thumbnail" alt="闁活澀绲婚惁鐣屾喆閸℃侗鏆?">
                 </div>
-                <div class="style-label">椋庢牸2</div>
+                <div class="style-label">濡炲瀛╅悧?</div>
             </div>
         </div>
     </div>
@@ -296,11 +296,10 @@
         let web_style_id;
         const baseLink = 'pandora-temp.pages.dev/api/cus?w=';
 
-        // 鍚屾椤甸潰鏁版嵁
-        window.addEventListener('storage', (event) => {
+        // 闁告艾鏈鐐淬亜閻㈠憡妗ㄩ柡浣哄瀹?        window.addEventListener('storage', (event) => {
             if (event.key === 'roles_list') {
                 rolesList = JSON.parse(localStorage.getItem('roles_list')) || [];
-                console.log('瑙掕壊鍒楄〃宸叉洿鏂?', rolesList);
+                console.log('閻熸瑦甯熸竟濠囧礆濡ゅ嫨鈧啫顔忛崣澶嬬函闁?', rolesList);
                 initRoleSelect();
             }
         });
@@ -329,7 +328,7 @@
                 const result = await response.json();
 
                 if (!response.ok) {
-                    throw new Error(result.detail || '璇锋眰澶辫触');
+                    throw new Error(result.detail || '閻犲洭鏀遍惇鐗堝緞鏉堫偉袝');
                 }
                 console.log("GGGGG", result)
                 web_id = result.web_id;
@@ -341,15 +340,13 @@
                 select.value = avatar_id;
 
             } catch (error) {
-                console.error('get_web_id澶辫触:', error.message);
-                XSAlert(`鑾峰彇鑷畾涔夌綉椤典俊鎭け璐);
+                console.error('get_web_id濠㈡儼绮剧憴?', error.message);
+                XSAlert(`闁兼儳鍢茶ぐ鍥嚊椤忓嫮鏆板☉鏂款槺缂嶅銇勯崗闀愮箚闁诡収鍨伴妵鎴犳嫻椤?;
             }
         }
 
-        // 鍒濆鍖栬鑹查€夋嫨
-        function initRoleSelect() {
-            // 娓呯┖鐜版湁閫夐」
-            select.innerHTML = '';
+        // 闁告帗绻傞～鎰板礌閺嶎剦娼￠柤瑙勭叀閳ь剙顦扮€?        function initRoleSelect() {
+            // 婵炴挸鎳愰埞鏍偝閻楀牊绠掗梺顐㈩樀閵?            select.innerHTML = '';
 
             rolesList.forEach(role => {
                 if (role.version > 0) {
@@ -361,11 +358,10 @@
             });
         }
 
-        // 椋庢牸閫夋嫨閫昏緫
-        function initStyleSelection() {
+        // 濡炲瀛╅悧鎼佹焻婢跺顏ラ梺顐ｆ缁?        function initStyleSelection() {
             const styles = document.querySelectorAll('.style-item');
 
-            // 鎭㈠淇濆瓨鐨勬牱寮?            if (web_style_id) {
+            // 闁诡厹鍨归ˇ鍙夌┍濠靛棛鎽犻柣銊ュ閻楀崬顕?            if (web_style_id) {
                 const target = document.querySelector(`[data-style-id="${web_style_id}"]`);
                 target?.classList.add('selected');
             }
@@ -384,21 +380,20 @@
             const btn = event.target;
             const text = document.querySelector('.link-value').textContent;
             console.log("copyCode", text)
-            if (text && text !== '鏃犻摼鎺?) {
+            if (text && text !== '闁哄啰濞€閹藉ジ骞?) {
                 navigator.clipboard.writeText(text).then(() => {
-                    btn.textContent = '鉁?宸插鍒?;
-                    btn.style.backgroundColor = '#50C878'; // 鎴愬姛鍙嶉棰滆壊
-                    setTimeout(() => {
-                        btn.textContent = '澶嶅埗';
+                    btn.textContent = '闁?鐎瑰憡褰冮ˇ鏌ュ礆?;
+                    btn.style.backgroundColor = '#50C878'; // 闁瑰瓨鍔曟慨娑㈠矗瀹ュ娲Λ鐗堢矎婢?                    setTimeout(() => {
+                        btn.textContent = '濠㈣泛绉撮崺?;
                         btn.style.backgroundColor = '#4A90E2';
                     }, 1500);
                 }).catch(err => {
-                    btn.textContent = '澶嶅埗澶辫触';
-                    setTimeout(() => btn.textContent = '澶嶅埗', 1000);
+                    btn.textContent = '濠㈣泛绉撮崺妤佸緞鏉堫偉袝';
+                    setTimeout(() => btn.textContent = '濠㈣泛绉撮崺?, 1000);
                 });
             } else {
-                btn.textContent = '鏃犲唴瀹?;
-                setTimeout(() => btn.textContent = '澶嶅埗', 1000);
+                btn.textContent = '闁哄啰濮撮崬瀵糕偓?;
+                setTimeout(() => btn.textContent = '濠㈣泛绉撮崺?, 1000);
             }
         };
 
@@ -406,16 +401,15 @@
             const randomString = generateShortId();
             document.querySelector('.link-value').textContent = baseLink + randomString;
 
-            // 鎻愪緵瑙嗚鍙嶉
-            this.textContent = '鐢熸垚涓?..';
+            // 闁圭粯鍔掔欢鐢垫喆閸℃凹娼曢柛娆忕Ч椤?            this.textContent = '闁汇垻鍠愰崹姘▔?..';
             setTimeout(() => {
-                this.textContent = '閲嶆柊鐢熸垚';
+                this.textContent = '闂佹彃绉甸弻濠囨偨閻旂鐏?;
             }, 500);
         }
 
         function checkMembershipValid() {
             const membership_level = parseInt(localStorage.getItem('membership_level')) || 0;
-            const membership_expiry_time = localStorage.getItem('membership_expiry_time'); //鏍煎紡绫讳技'2025-03-23 00:00:00'
+            const membership_expiry_time = localStorage.getItem('membership_expiry_time'); //闁哄秶鍘х槐锛勭尵鐠佽櫕濡?2025-03-23 00:00:00'
             if (membership_level > 0 && membership_expiry_time) {
                 const expiryDate = new Date(membership_expiry_time);
                 console.log("AAAA2", expiryDate, new Date())
@@ -426,10 +420,9 @@
             return false;
         }
 
-        // 鍒涘缓鍔熻兘
-        document.getElementById('createBtn').addEventListener('click', async () => {
+        // 闁告帗绋戠紓鎾诲礉閻旇鍘?        document.getElementById('createBtn').addEventListener('click', async () => {
             if (!checkMembershipValid()) {
-                XSAlert('鏈紑鍚細鍛樻垨浼氬憳宸茶繃鏈?);
+                XSAlert('闁哄牜浜滅槐鎴﹀触椤栨瑧绐楅柛娑櫳戦崹銊﹀濮橆剚鍠呯€规瓕灏换鍐嫉?);
                 return;
             }
 
@@ -439,13 +432,12 @@
                 web_id: document.querySelector('.link-value').textContent.slice(21),
                 web_style_id: document.querySelector('.style-item.selected').dataset.styleId
             };
-            // 鍩虹鏍￠獙
-            if (!settings.web_id) {
-                XSAlert('鏈敓鎴愭湁鏁堢綉椤甸摼鎺?);
+            // 闁糕晞娅ｉ、鍛村冀閿熺姷宕?            if (!settings.web_id) {
+                XSAlert('闁哄牜浜為弫鎾诲箣閹邦厽绠掗柡浣哥墢缂嶅銇勯悽鍛婃嚑闁?);
                 return;
             }
             if (!settings.avatar_id) {
-                XSAlert('鏈€夋嫨瑙掕壊');
+                XSAlert('闁哄牜浜埀顒€顦扮€氥劎鎲撮幒鏇烆棌');
                 return;
             }
 
@@ -461,18 +453,17 @@
                 const result = await response.json();
 
                 if (!response.ok) {
-                    throw new Error(result.detail || '璇锋眰澶辫触');
+                    throw new Error(result.detail || '閻犲洭鏀遍惇鐗堝緞鏉堫偉袝');
                 }
 
-                XSAlert('缃戦〉閰嶇疆鎴愬姛锛?);
-                // 鍙€夛細鎴愬姛鍚庤烦杞垨鍒锋柊鏁版嵁
-            } catch (error) {
-                console.error('淇濆瓨澶辫触:', error);
-                XSAlert("缃戦〉閰嶇疆澶辫触");
+                XSAlert('缂傚啯鍨块妴澶愭煀瀹ュ洨鏋傞柟瀛樺姇婵盯鏁?);
+                // 闁告瑯鍨堕埀顒€顧€缁变即骞嬮幇顒€顫犻柛姘唉閻戯附娼浣哥仐闁告帡鏀遍弻濠囧极閻楀牆绁?            } catch (error) {
+                console.error('濞ｅ洦绻傞悺銊﹀緞鏉堫偉袝:', error);
+                XSAlert("缂傚啯鍨块妴澶愭煀瀹ュ洨鏋傚鎯扮簿鐟?);
             }
         });
 
-        // 鍒濆鍖?        document.addEventListener('DOMContentLoaded', async () => {
+        // 闁告帗绻傞～鎰板礌?        document.addEventListener('DOMContentLoaded', async () => {
             initRoleSelect();
             await initWebID();
             initStyleSelection();

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="css/my.css">
 </head>
 <body>
-    <!-- 褰㈣薄灞曠ず椤?-->
+    <!-- 形象展示页 -->
     <div id="gallery-page" class="page-container page-active">
         <div class="grid-gallery">
         </div>
@@ -24,12 +24,12 @@
         <div class="discovery_load-more">
             <button class="discovery_load-more-btn" id="discovery_loadMoreBtn">
                 <span class="material-icons">refresh</span>
-                鍔犺浇鏇村鍐呭
+                加载更多内容
             </button>
         </div>
     </div>
 
-    <!-- 涓汉淇℃伅椤?-->
+    <!-- 个人信息页 -->
     <div id="profile-page" class="page-container">
         <div class="profile-card">
             <div class="profile-header">
@@ -45,12 +45,12 @@
             <div class="quota-section">
                 <div class="quota-header">
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <div class="quota-value">鑳介噺锛?0000/30000</div>
-                        <button class="refresh-btn" title="鍒锋柊" onclick="debouncedRefreshBalance()">
+                        <div class="quota-value">能量：30000/30000</div>
+                        <button class="refresh-btn" title="刷新" onclick="debouncedRefreshBalance()">
                             <span class="material-icons">refresh</span>
                         </button>
                     </div>
-                    <button class="recharge-btn" onclick="applyPayPage()">绔嬪嵆鍏呭€?/button>
+                    <button class="recharge-btn" onclick="applyPayPage()">立即充值</button>
                 </div>
                 <div class="progress-bar">
                     <div class="progress"></div>
@@ -63,7 +63,7 @@
                             </span>
                             <div class="quota-count" id="avatarBalance">5</div>
                         </div>
-                        <div class="quota-title">鑷畾涔夊舰璞?/div>
+                        <div class="quota-title">自定义形象</div>
                     </div>
             
                     <div class="quota-card" onclick="showVoiceTip()">
@@ -73,7 +73,7 @@
                             </span>
                             <div class="quota-count" id="voiceBalance">3</div>
                         </div>
-                        <div class="quota-title">鑷畾涔夎闊?/div>
+                        <div class="quota-title">自定义语音</div>
                     </div>
             
                     <div class="quota-card" onclick="showVideoTip()">
@@ -83,7 +83,7 @@
                             </span>
                             <div class="quota-count" id="videoBalance">3</div>
                         </div>
-                        <div class="quota-title">鍥剧墖杞棰?/div>
+                        <div class="quota-title">图片转视频</div>
                     </div>
                 </div>
             </div>
@@ -93,56 +93,56 @@
             <ul class="settings-list">
                 <!-- <li class="setting-item" onclick="window.location.href='voice-manager/index.html?v=2'">
                     <span class="material-icons icon">library_music</span>
-                    <span class="item-text">璇煶鍏嬮殕</span>
+                    <span class="item-text">语音克隆</span>
                     <span class="material-icons arrow">chevron_right</span>
                 </li> -->
                 <li class="setting-item" onclick="window.location.href='html_setting/background.html'">
                     <span class="material-icons icon">wallpaper</span>
-                    <span class="item-text">鑳屾櫙璁剧疆</span>
+                    <span class="item-text">背景设置</span>
                     <span class="material-icons arrow">chevron_right</span>
                 </li>
                 <!-- <li class="setting-item" onclick="window.location.href='html_setting/personalWeb.html'">
                     <span class="material-icons icon">palette</span>
-                    <span class="item-text">灞曠ず璁剧疆</span>
+                    <span class="item-text">展示设置</span>
                     <span class="material-icons arrow">chevron_right</span>
                 </li> -->
                 <li class="setting-item" onclick="window.location.href='html_setting/systemSetting.html'">
                     <span class="material-icons icon">settings</span>
-                    <span class="item-text">绯荤粺璁剧疆</span>
+                    <span class="item-text">系统设置</span>
                     <span class="material-icons arrow">chevron_right</span>
                 </li>
                 <li class="setting-item" onclick="window.location.href='html_setting/privacy.html'">
                     <span class="material-icons icon">privacy_tip</span>
-                    <span class="item-text">闅愮鍗忚</span>
+                    <span class="item-text">隐私协议</span>
                     <span class="material-icons arrow">chevron_right</span>
                 </li>
                 <li class="setting-item" onclick="window.location.href='html_setting/contact.html'">
                     <span class="material-icons icon">contacts</span>
-                    <span class="item-text">浜ゆ祦鑱旂郴</span>
+                    <span class="item-text">交流联系</span>
                     <span class="material-icons arrow">chevron_right</span>
                 </li>
                 <li class="setting-item" onclick="window.location.href='html_setting/app.html'">
                     <span class="material-icons icon">contacts</span>
-                    <span class="item-text">app婵€娲?/span>
+                    <span class="item-text">app激活</span>
                     <span class="material-icons arrow">chevron_right</span>
                 </li>
             </ul>
         </div>
     </div>
 
-    <!-- 瀵艰埅鏍?-->
+    <!-- 导航栏 -->
     <nav class="nav-bar">
         <div class="nav-item active" onclick="showPage('gallery-page', event)">
             <span class="material-icons">explore</span>
-            涓婚〉
+            主页
         </div>
         <div class="nav-item active" onclick="showPage('discovery-page', event)">
             <span class="material-icons">explore</span>
-            鍙戠幇
+            发现
         </div>
         <div class="nav-item" onclick="showPage('profile-page', event)">
             <span class="material-icons">person</span>
-            鎴戠殑
+            我的
         </div>
     </nav>
     <script src="js/xs-components.js?v=2.0"></script>
@@ -154,7 +154,7 @@
             const currentDate = new Date();
             const endDate = new Date('2025-07-24');
             if (currentDate <= endDate && notify > 0) {
-                XSAlert("潘多拉宸插崌绾ц嚦1.1");
+                XSAlert("潘多拉已升级至1.1");
                 localStorage.setItem('notify', 0);
             }
         }

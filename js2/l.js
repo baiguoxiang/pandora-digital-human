@@ -1,12 +1,15 @@
-﻿// 鍒ゆ柇寰俊娴忚鍣?function isWeixinBrowser() {
+// 判断微信浏览器
+function isWeixinBrowser() {
     const ua = navigator.userAgent.toLowerCase();
     return ua.includes('micromessenger');
 }
-// 鍒ゆ柇鏄惁鍦ㄥ井淇″皬绋嬪簭鐜涓?function isWechatMiniProgram() {
+// 判断是否在微信小程序环境中
+function isWechatMiniProgram() {
     return navigator.userAgent.toLowerCase().indexOf('miniprogram') !== -1;
 }
 
-// 鍒濆鍖栬儗鏅?function initBackground() {
+// 初始化背景
+function initBackground() {
     if (isWechatMiniProgram()) 
     {
         const businessCheckElement = document.getElementById('businessCheck');
@@ -14,7 +17,7 @@
             businessCheckElement.style.display = 'none';
         }
 
-        // 瑙ｆ瀽 URL 涓殑 openid 鍙傛暟
+        // 解析 URL 中的 openid 参数
         const urlParams = new URLSearchParams(window.location.search);
         const mp_openid = urlParams.get('mp_openid');
         // console.log('Received mp_openid:', mp_openid);
@@ -25,7 +28,7 @@
     }
     const urlParams = new URLSearchParams(window.location.search);
 
-    let isDesktop = urlParams.has('Desktop') ? 1 : 0; // 妫€鏌ユ槸鍚﹀瓨鍦↙ive鍙傛暟
+    let isDesktop = urlParams.has('Desktop') ? 1 : 0; // 检查是否存在Live参数
     console.log(urlParams, isDesktop);
     if (isDesktop)
     {
@@ -47,7 +50,7 @@ async function wechatLogin() {
     const isMobile = isMobileDevice();
 
     // if (isMobile && !isWechat) {
-    //     alert('璇峰湪寰俊鍐呯殑娴忚鍣ㄦ墦寮€');
+    //     alert('请在微信内的浏览器打开');
     //     return;
     // }
 
@@ -65,7 +68,7 @@ async function wechatLogin() {
     }
     console.log("isApp:", isApp, "isLive:", isLive);
 
-    // 濡傛灉storage涓瓨鍦╦wt_token,鐩存帴璁块棶鏈嶅姟鍣ㄧ殑/api/auth/auto_login鎺ュ彛   
+    // 如果storage中存在jwt_token,直接访问服务器的/api/auth/auto_login接口   
     const jwt_token = localStorage.getItem('jwt_token');
     if (jwt_token) {
         console.log('try auto_login');
@@ -134,4 +137,3 @@ async function wechatLogin() {
         : `https://open.weixin.qq.com/connect/qrconnect?appid=${config.appid}&redirect_uri=${redirect_uri}&response_type=code&scope=${config.scope}&state=STATE#wechat_redirect`;
     window.location.href = authUrl;
 }
-
