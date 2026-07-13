@@ -1,0 +1,1018 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>潘多拉-鑳屾櫙绠＄悊</title>
+    <link href="../css/material-icons.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            padding: 0 16px;
+        }
+
+        .title-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 17px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .nav-button:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        .material-icons {
+            color: #ff3c64;
+        }
+
+        .create-btn {
+            background: linear-gradient(135deg, #ff7c7c, #ff5252);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: none;
+            font-weight: 500;
+            z-index: 1;
+        }
+        
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 82, 82, 0.35);
+        }
+        
+        /* 璁℃暟鍣ㄦ牱寮?*/
+        .counter {
+            text-align: center;
+            margin: 15px 0 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .counter span {
+            color: #ff5252;
+            font-weight: 600;
+        }
+        
+        /* 缃戞牸甯冨眬 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 18px;
+            margin-top: 10px;
+        }
+        
+        /* 鍗＄墖鏍峰紡 */
+        .card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            aspect-ratio: 3/4;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+            display: flex;
+            align-items: flex-end;
+            padding: 12px;
+        }
+        
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            border: none;
+            cursor: pointer;
+            z-index: 2;
+        }
+        
+        .video-indicator {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            z-index: 2;
+        }
+        
+        /* 娣诲姞鏂板崱鐗囨牱寮?*/
+        .add-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+            border: 2px dashed #e0e0e0;
+        }
+        
+        .add-card .material-icons {
+            font-size: 32px;
+            color: #aaa;
+            margin-bottom: 8px;
+        }
+        
+        .add-card .card-title {
+            color: #aaa;
+            text-align: center;
+        }
+        
+        /* 棰勮妯℃€佹鏍峰紡 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .modal-content {
+            max-width: 90%;
+            max-height: 85%;
+            position: relative;
+        }
+        
+        .modal-content img, .modal-content video {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+        
+        /* 绌虹姸鎬佹牱寮?*/
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+        
+        .empty-state .material-icons {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+        
+        .empty-state p {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        /* 涓婁紶妯℃€佹 */
+        .upload-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .upload-container {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        .upload-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .upload-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .upload-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .drop-area {
+            border: 2px dashed #e0e0e0;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .drop-area.active {
+            border-color: #ff7c7c;
+            background: #fff5f5;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: #ff7c7c;
+            margin-bottom: 10px;
+        }
+        
+        .upload-text {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-info {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .file-name {
+            font-size: 14px;
+            margin-bottom: 5px;
+            word-break: break-all;
+        }
+        
+        .file-details {
+            display: flex;
+            justify-content: space-between;
+            color: #888;
+            font-size: 12px;
+        }
+        
+        .upload-btn {
+            background: linear-gradient(135deg, #ff7c7c, #ff5252);
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-btn:disabled {
+            background: #e0e0e0;
+            cursor: not-allowed;
+        }
+        
+        .upload-btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 82, 82, 0.35);
+        }
+        
+        .progress-container {
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #ff7c7c, #ff5252);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .error-message {
+            color: #ff5252;
+            font-size: 14px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+        
+        /* 鍔ㄧ敾 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card {
+            animation: fadeIn 0.4s ease forwards;
+        }
+        
+        /* 鍝嶅簲寮忚皟鏁?*/
+        @media (max-width: 480px) {
+            .grid-container {
+                gap: 14px;
+            }
+            
+            .card {
+                border-radius: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="title-bar">
+        <button class="nav-button back-btn" onclick="history.back()">
+            <i class="material-icons">arrow_back</i>
+        </button>
+        <div class="title">鑷畾涔夎儗鏅?/div>
+        <button class="create-btn" id="createBtn">鏂板缓</button>
+    </div>
+    
+    <div class="counter">宸叉坊鍔?<span id="currentCount">0</span> / 10 涓儗鏅?/div>
+    
+    <div class="grid-container" id="gridContainer">
+        <!-- 鍗＄墖灏嗗湪杩欓噷鍔ㄦ€佺敓鎴?-->
+    </div>
+    
+    <!-- 棰勮妯℃€佹 -->
+    <div class="modal" id="previewModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">
+                <i class="material-icons">close</i>
+            </button>
+            <div id="mediaContainer"></div>
+        </div>
+    </div>
+    
+    <!-- 涓婁紶妯℃€佹 -->
+    <div class="upload-modal" id="uploadModal" style="display: none;">
+        <div class="upload-container">
+            <div class="upload-header">
+                <div class="upload-title">涓婁紶鏂拌儗鏅?/div>
+                <button class="upload-close" id="closeUpload">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            
+            <div class="drop-area" id="dropArea">
+                <div class="upload-icon">
+                    <i class="material-icons">cloud_upload</i>
+                </div>
+                <div class="upload-text">鎷栨斁鍥剧墖鎴栬棰戞枃浠跺埌姝ゅ锛屾垨鐐瑰嚮閫夋嫨鏂囦欢</div>
+                <div class="upload-text" style="font-size: 12px; margin-top: 15px;">
+                    鏀寔鏍煎紡: JPG, PNG, MP4 | 鏈€澶у昂瀵? 25MB | 鍒嗚鲸鐜? 鈮?080P | 瑙嗛鏃堕暱: 鈮?0绉?                </div>
+                <input type="file" id="fileInput" class="file-input" accept="image/*,video/mp4">
+            </div>
+            
+            <div class="file-info" id="fileInfo">
+                <div class="file-name" id="fileName"></div>
+                <div class="file-details">
+                    <span id="fileType"></span>
+                    <span id="fileSize"></span>
+                </div>
+            </div>
+            
+            <div class="error-message" id="errorMessage"></div>
+            
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress" id="progressBar"></div>
+                </div>
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+            
+            <button class="upload-btn" id="uploadBtn" disabled>寮€濮嬩笂浼?/button>
+        </div>
+    </div>
+
+    <script>
+        // 绀轰緥鑳屾櫙鏁版嵁锛堝湪瀹為檯搴旂敤涓粠storage涓鍙栵級
+        let bg_list = [];
+
+        // DOM鍏冪礌
+        const gridContainer = document.getElementById('gridContainer');
+        const previewModal = document.getElementById('previewModal');
+        const closeModal = document.getElementById('closeModal');
+        const mediaContainer = document.getElementById('mediaContainer');
+        const currentCount = document.getElementById('currentCount');
+        const createBtn = document.getElementById('createBtn');
+        const uploadModal = document.getElementById('uploadModal');
+        const closeUpload = document.getElementById('closeUpload');
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileType = document.getElementById('fileType');
+        const fileSize = document.getElementById('fileSize');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // 褰撳墠閫変腑鐨勬枃浠?        let selectedFile = null;
+        let thumbnailBlob = null;
+
+        // 鍒濆鍖栭〉闈?        function initPage() {
+            bg_list = JSON.parse(localStorage.getItem('bg_list')) || [];
+            renderBackgrounds();
+            updateCounter();
+            setupEventListeners();
+        }
+
+        // 璁剧疆浜嬩欢鐩戝惉鍣?        function setupEventListeners() {
+            // 鏂囦欢鎷栨斁
+            dropArea.addEventListener('click', () => fileInput.click());
+            
+            dropArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropArea.classList.add('active');
+            });
+            
+            dropArea.addEventListener('dragleave', () => {
+                dropArea.classList.remove('active');
+            });
+            
+            dropArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropArea.classList.remove('active');
+                
+                if (e.dataTransfer.files.length) {
+                    handleFileSelect(e.dataTransfer.files[0]);
+                }
+            });
+            
+            // 鏂囦欢閫夋嫨
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    handleFileSelect(e.target.files[0]);
+                }
+            });
+            
+            // 涓婁紶鎸夐挳
+            uploadBtn.addEventListener('click', startUpload);
+            
+            // 鍏抽棴涓婁紶妯℃€佹
+            closeUpload.addEventListener('click', () => {
+                uploadModal.style.display = 'none';
+                resetUploadForm();
+            });
+        }
+
+        // 澶勭悊鏂囦欢閫夋嫨
+        function handleFileSelect(file) {
+            // 閲嶇疆閿欒淇℃伅
+            errorMessage.style.display = 'none';
+            
+            // 楠岃瘉鏂囦欢绫诲瀷
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'video/mp4'];
+            if (!validTypes.includes(file.type)) {
+                showError('涓嶆敮鎸佺殑鏂囦欢鏍煎紡銆傝閫夋嫨 JPG, PNG 鎴?MP4 鏂囦欢銆?);
+                return;
+            }
+            
+            // 楠岃瘉鏂囦欢澶у皬 (25MB)
+            const maxSize = 25 * 1024 * 1024; // 25MB
+            if (file.size > maxSize) {
+                showError('鏂囦欢澶у皬瓒呰繃 25MB 闄愬埗銆?);
+                return;
+            }
+            
+            selectedFile = file;
+            
+            // 鏄剧ず鏂囦欢淇℃伅
+            fileName.textContent = file.name;
+            fileType.textContent = file.type.includes('image') ? '鍥剧墖' : '瑙嗛';
+            fileSize.textContent = formatFileSize(file.size);
+            fileInfo.style.display = 'block';
+            
+            // 鍚敤涓婁紶鎸夐挳
+            uploadBtn.disabled = false;
+            
+            // 涓鸿棰戞枃浠剁敓鎴愮缉鐣ュ浘
+            if (file.type.includes('video')) {
+                generateVideoThumbnail(file);
+            } else {
+                // 涓哄浘鐗囩敓鎴愮缉鐣ュ浘
+                generateImageThumbnail(file);
+            }
+        }
+
+        // 涓哄浘鐗囩敓鎴愮缉鐣ュ浘
+        function generateImageThumbnail(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    // 楠岃瘉鍒嗚鲸鐜?                    if (img.width > 1920 || img.height > 1920) {
+                        showError('鍥剧墖鍒嗚鲸鐜囪秴杩?1080P 闄愬埗銆?);
+                        selectedFile = null;
+                        uploadBtn.disabled = true;
+                        return;
+                    }
+                    
+                    // 鍒涘缓缂╃暐鍥?                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // 璁＄畻缂╃暐鍥惧昂瀵?                    const maxDimension = 384;
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > height) {
+                        if (width > maxDimension) {
+                            height *= maxDimension / width;
+                            width = maxDimension;
+                        }
+                    } else {
+                        if (height > maxDimension) {
+                            width *= maxDimension / height;
+                            height = maxDimension;
+                        }
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    // 缁樺埗缂╃暐鍥?                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // 杞崲涓築lob
+                    canvas.toBlob(blob => {
+                        thumbnailBlob = blob;
+                    }, 'image/jpeg', 0.8);
+                };
+                
+                img.src = e.target.result;
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        // 涓鸿棰戠敓鎴愮缉鐣ュ浘
+        function generateVideoThumbnail(file) {
+            const video = document.createElement('video');
+            const url = URL.createObjectURL(file);
+            
+            video.src = url;
+            video.muted = true;
+            video.playsInline = true;
+            
+            video.onloadedmetadata = function() {
+                // 楠岃瘉瑙嗛鏃堕暱
+                if (video.duration > 20) {
+                    showError('瑙嗛鏃堕暱瓒呰繃 20 绉掗檺鍒躲€?);
+                    selectedFile = null;
+                    uploadBtn.disabled = true;
+                    URL.revokeObjectURL(url);
+                    return;
+                }
+                console.log("generateVideoThumbnail:", video.videoWidth, video.videoHeight)
+                
+                // 楠岃瘉鍒嗚鲸鐜?                if (video.videoWidth > 1920 || video.videoHeight > 1920) {
+                    showError('瑙嗛鍒嗚鲸鐜囪秴杩?1080P 闄愬埗銆?);
+                    selectedFile = null;
+                    uploadBtn.disabled = true;
+                    URL.revokeObjectURL(url);
+                    return;
+                }
+                
+                // 鍦?绉掍綅缃幏鍙栫缉鐣ュ浘
+                video.currentTime = 1;
+            };
+            
+            video.onseeked = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                // 鍒涘缓缂╃暐鍥撅紙鏈€澶у昂瀵?84px锛?                const thumbnailCanvas = document.createElement('canvas');
+                const thumbnailCtx = thumbnailCanvas.getContext('2d');
+                
+                const maxDimension = 384;
+                let width = video.videoWidth;
+                let height = video.videoHeight;
+                
+                if (width > height) {
+                    if (width > maxDimension) {
+                        height *= maxDimension / width;
+                        width = maxDimension;
+                    }
+                } else {
+                    if (height > maxDimension) {
+                        width *= maxDimension / height;
+                        height = maxDimension;
+                    }
+                }
+                
+                thumbnailCanvas.width = width;
+                thumbnailCanvas.height = height;
+                
+                thumbnailCtx.drawImage(canvas, 0, 0, width, height);
+                
+                // 杞崲涓築lob
+                thumbnailCanvas.toBlob(blob => {
+                    thumbnailBlob = blob;
+                    URL.revokeObjectURL(url);
+                }, 'image/jpeg', 0.8);
+            };
+            
+            video.onerror = function() {
+                showError('鏃犳硶澶勭悊瑙嗛鏂囦欢銆?);
+                URL.revokeObjectURL(url);
+            };
+        }
+
+        // 寮€濮嬩笂浼?        async function startUpload() {
+            if (!selectedFile || !thumbnailBlob) {
+                showError('璇烽€夋嫨鏈夋晥鐨勬枃浠躲€?);
+                return;
+            }
+            
+            // 绂佺敤鎸夐挳锛屾樉绀鸿繘搴︽潯
+            uploadBtn.disabled = true;
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            progressText.textContent = '0%';
+            
+            try {
+                // 鐢熸垚鍞竴ID
+                let unionid = localStorage.getItem('unionid');
+                if (!unionid)
+                {
+                    alert('鐢ㄦ埛鏈櫥褰?);
+                    return;
+                }
+                const bg_id = `${unionid}_${Date.now()}`;
+                const suffix = selectedFile.name.substring(selectedFile.name.lastIndexOf('.'))
+                // 涓婁紶鍘熸枃浠跺埌OSS
+                const ossUrl = `https://潘多拉.oss-cn-beijing.aliyuncs.com/background/${bg_id}${suffix}`;
+                await uploadFile({
+                    url: ossUrl,
+                    file: selectedFile,
+                    contentType: selectedFile.type,
+                    onProgress: (progress) => {
+                        const progressValue = Math.round(progress * 100);
+                        progressBar.style.width = `${progressValue}%`;
+                        progressText.textContent = `${progressValue}%`;
+                    }
+                });
+                
+                // 涓婁紶缂╃暐鍥?                const thumbnailUrl = `https://潘多拉.oss-cn-beijing.aliyuncs.com/background/${bg_id}_thumbnail.jpg`;
+                await uploadFile({
+                    url: thumbnailUrl,
+                    file: thumbnailBlob,
+                    contentType: 'image/jpeg'
+                });
+                
+                // 鍒涘缓鏂拌儗鏅璞?                const newBg = {
+                    unionid: unionid, // 瀹為檯搴旂敤涓粠鐢ㄦ埛淇℃伅鑾峰彇
+                    bg_id: bg_id,
+                    is_video: selectedFile.type.includes('video') ? 1 : 0,
+                    bg_url: ossUrl,
+                    thumbnail_url: thumbnailUrl
+                };
+                console.log("BBBBBBBBB", newBg)
+                
+                // 璋冪敤API淇濆瓨鑳屾櫙淇℃伅
+                const response = await fetch('https://www.pandora-temp.pages.dev/api/auth/apply_new_bg', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newBg)
+                });
+                
+                const result = await response.json();
+                
+                if (result.code !== 0) {
+                    throw new Error(result.message || '淇濆瓨鑳屾櫙淇℃伅澶辫触');
+                }
+                
+                // 娣诲姞鍒版湰鍦板垪琛?                bg_list.push(newBg);
+                renderBackgrounds();
+                updateCounter();
+                
+                // 鍏抽棴涓婁紶妯℃€佹
+                uploadModal.style.display = 'none';
+                resetUploadForm();
+                localStorage.setItem('bg_list', JSON.stringify(bg_list));
+                // 鏄剧ず鎴愬姛娑堟伅
+                alert('鑳屾櫙涓婁紶鎴愬姛锛?);
+                
+            } catch (error) {
+                console.error('涓婁紶澶辫触:', error);
+                showError(`涓婁紶澶辫触: ${error.message}`);
+            } finally {
+                progressContainer.style.display = 'none';
+                uploadBtn.disabled = false;
+            }
+        }
+
+        // 鏂囦欢涓婁紶鍑芥暟
+        function uploadFile({ url, file, contentType, onProgress }) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                
+                xhr.open('PUT', url, true);
+                xhr.setRequestHeader('Content-Type', contentType);
+                
+                xhr.upload.onprogress = function(e) {
+                    if (e.lengthComputable && onProgress) {
+                        const progress = e.loaded / e.total;
+                        onProgress(progress);
+                    }
+                };
+                
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        resolve();
+                    } else {
+                        reject(new Error(`涓婁紶澶辫触锛岀姸鎬佺爜锛?{xhr.status}`));
+                    }
+                };
+                
+                xhr.onerror = function() {
+                    reject(new Error('缃戠粶閿欒'));
+                };
+                
+                xhr.send(file);
+            });
+        }
+
+        // 娓叉煋鑳屾櫙鍗＄墖
+        function renderBackgrounds() {
+            gridContainer.innerHTML = '';
+            
+            if (bg_list.length === 0) {
+                gridContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="material-icons">image</i>
+                        <h3>鏆傛棤鑷畾涔夎儗鏅?/h3>
+                        <p>鐐瑰嚮"鏂板缓"鎸夐挳娣诲姞鎮ㄧ殑绗竴涓儗鏅?/p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // 娓叉煋宸叉湁鑳屾櫙鍗＄墖
+            bg_list.forEach(bg => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-image" style="background-image: url(${bg.thumbnail_url})">
+                        ${bg.is_video ? `<div class="video-indicator"><i class="material-icons" style="font-size:14px;color:white">play_circle_filled</i><span>瑙嗛</span></div>` : ''}
+                        <div class="card-overlay"></div>
+                        <button class="delete-btn" data-id="${bg.bg_id}">
+                            <i class="material-icons" style="font-size:16px;color:#ff5252">close</i>
+                        </button>
+                    </div>
+                `;
+                
+                // 娣诲姞鐐瑰嚮棰勮浜嬩欢
+                card.addEventListener('click', (e) => {
+                    if (!e.target.closest('.delete-btn')) {
+                        previewBackground(bg);
+                    }
+                });
+                
+                // 娣诲姞鍒犻櫎浜嬩欢
+                const deleteBtn = card.querySelector('.delete-btn');
+                deleteBtn.addEventListener('click', () => deleteBackground(bg.bg_id));
+                
+                gridContainer.appendChild(card);
+            });
+        }
+
+        // 鏇存柊璁℃暟鍣?        function updateCounter() {
+            currentCount.textContent = bg_list.length;
+        }
+
+        // 棰勮鑳屾櫙
+        function previewBackground(bg) {
+            mediaContainer.innerHTML = '';
+            
+            if (bg.is_video) {
+                const video = document.createElement('video');
+                video.src = bg.bg_url;
+                video.controls = true;
+                video.autoplay = true;
+                video.style.width = '100%';
+                mediaContainer.appendChild(video);
+            } else {
+                const img = document.createElement('img');
+                img.src = bg.bg_url;
+                img.alt = '鑳屾櫙鍥剧墖';
+                mediaContainer.appendChild(img);
+            }
+            
+            previewModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 鍒犻櫎鑳屾櫙
+        async function deleteBackground(bgId) {
+            if (!confirm('纭畾瑕佸垹闄よ繖涓儗鏅悧锛?)) return;
+            
+            try {
+                let unionid = localStorage.getItem('unionid');
+                // 璋冪敤API鍒犻櫎鑳屾櫙
+                const response = await fetch('https://www.pandora-temp.pages.dev/api/auth/remove_bg', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({unionid: unionid, bg_id: bgId })
+                });
+                
+                const result = await response.json();
+                
+                if (result.code !== 0) {
+                    throw new Error(result.message || '鍒犻櫎澶辫触');
+                }
+                
+                // 浠庢湰鍦板垪琛ㄤ腑鍒犻櫎
+                bg_list = bg_list.filter(bg => bg.bg_id !== bgId);
+
+                localStorage.setItem('bg_list', JSON.stringify(bg_list));
+                renderBackgrounds();
+                updateCounter();
+                
+            } catch (error) {
+                console.error('鍒犻櫎澶辫触:', error);
+                alert(`鍒犻櫎澶辫触: ${error.message}`);
+            }
+        }
+
+        // 閲嶇疆涓婁紶琛ㄥ崟
+        function resetUploadForm() {
+            selectedFile = null;
+            thumbnailBlob = null;
+            fileInput.value = '';
+            fileInfo.style.display = 'none';
+            uploadBtn.disabled = true;
+            errorMessage.style.display = 'none';
+            progressContainer.style.display = 'none';
+        }
+
+        // 鏄剧ず閿欒娑堟伅
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        // 鏍煎紡鍖栨枃浠跺ぇ灏?        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // 鍒濆鍖栭〉闈?        createBtn.addEventListener('click', () => {
+            const membership_level = parseInt(localStorage.getItem('membership_level')) || 0;
+            const membership_expiry_time = localStorage.getItem('membership_expiry_time'); //鏍煎紡绫讳技'2025-03-23 00:00:00'
+            if (membership_level > 0 && membership_expiry_time) {
+                const expiryDate = new Date(membership_expiry_time);
+                if (expiryDate < new Date()) {
+                    confirm("浼氬憳宸茶繃鏈?);
+                    return;
+                }
+            }
+            else {
+                confirm("浼氬憳宸茶繃鏈?);
+                return;
+            }
+
+            uploadModal.style.display = 'flex';
+        });
+        
+        // 鍏抽棴棰勮妯℃€佹
+        closeModal.addEventListener('click', () => {
+            previewModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // 鍋滄瑙嗛鎾斁
+            const video = mediaContainer.querySelector('video');
+            if (video) {
+                video.pause();
+            }
+        });
+
+        window.addEventListener('load', initPage);
+    </script>
+</body>
+</html>

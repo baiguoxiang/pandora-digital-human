@@ -1,0 +1,482 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>潘多拉-灞曠ず璁剧疆</title>
+    <link rel="stylesheet" href="../css/xs-styles.css">
+    <link href="../css/material-icons.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            padding: 0 16px;
+        }
+
+        .title-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 17px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .nav-button:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        .material-icons {
+            color: #ff3c64;
+        }
+
+        .create-btn {
+            background: linear-gradient(135deg, #ff7c7c, #ff5252);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: none;
+            font-weight: 500;
+            z-index: 1;
+        }
+
+        /* 鏂板璁剧疆椤规牱寮?*/
+        .settings-list {
+            background: white;
+            border-radius: 12px;
+            padding: 0 16px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .regenerate-btn {
+            background: #f0f2f5;
+            color: #606266;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .regenerate-btn:hover {
+            background: #e4e6e9;
+        }
+
+        .style-selection {
+            background: white;
+            border-radius: 12px;
+            padding: 20px 16px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .style-item {
+            position: relative;
+            aspect-ratio: 1;
+            background: #f5f5f5;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .style-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 20px;
+            height: 20px;
+            background: #4A90E2;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .style-item.selected .checkmark {
+            opacity: 1;
+        }
+
+        .style-label {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .role-select {
+            background: #f0f2f5;
+            border: 1px solid #e4e6e9;
+            border-radius: 16px;
+            padding: 6px 32px 6px 12px;
+            font-size: 14px;
+            color: #606266;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23606266' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 16px;
+        }
+
+        .copy-btn {
+            background: #4A90E2;
+            color: white;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: #357ABD;
+            transform: translateY(-1px);
+        }
+
+        /* 璋冩暣鎸夐挳闂磋窛 */
+        .action-group {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+            min-width: 100px;
+        }
+
+        /* 閾炬帴鏄剧ず浼樺寲 */
+        .link-value {
+            color: #606266;
+            font-size: 14px;
+            flex: 1 0 100%;
+            max-width: 100%;
+            text-align: right;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .style-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .style-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="title-bar">
+        <button class="nav-button back-btn" onclick="history.back()">
+            <i class="material-icons">arrow_back</i>
+        </button>
+        <div class="title">灞曠ず璁剧疆</div>
+        <button class="create-btn" id="createBtn">鍒涘缓</button>
+    </div>
+
+    <div class="settings-list">
+        <div class="setting-item">
+            <div class="setting-info">涓汉缃戦〉</div>
+            <div class="action-group">
+                <span class="link-value"></span>
+                <button class="regenerate-btn" onclick="regenerate()">閲嶆柊鐢熸垚</button>
+                <button class="regenerate-btn copy-btn" onclick="copyCode(event)" title="澶嶅埗閾炬帴">澶嶅埗</button>
+            </div>
+        </div>
+        <div class="setting-item">
+            <div class="setting-info">瀵硅瘽浜虹墿</div>
+            <div class="action-group">
+                <select class="role-select" id="roleSelect">
+                    <!-- 閫夐」閫氳繃JS鍔ㄦ€佺敓鎴?-->
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="style-selection">
+        <h3 class="section-title">缃戦〉椋庢牸閫夋嫨</h3>
+        <div class="style-grid">
+            <div class="style-container">
+                <div class="style-item" data-style-id="0">
+                    <div class="checkmark">鉁?/div>
+                    <img src="https://潘多拉.oss-cn-beijing.aliyuncs.com/public/web_style_id0.jpg" class="style-thumbnail" alt="鐢佃瘽瑙嗛1">
+                </div>
+                <div class="style-label">椋庢牸1</div>
+            </div>
+            <div class="style-container">
+                <div class="style-item" data-style-id="1">
+                    <div class="checkmark">鉁?/div>
+                    <img src="https://潘多拉.oss-cn-beijing.aliyuncs.com/public/web_style_id1.jpg" class="style-thumbnail" alt="鐢佃瘽瑙嗛2">
+                </div>
+                <div class="style-label">椋庢牸2</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js_common/xs-components.js?v=1.2"></script>
+    <script>
+        const unionid = localStorage.getItem('unionid');
+        if (!unionid) {
+            window.location.href = '/login.html';
+        }
+        let rolesList;
+        rolesList = JSON.parse(localStorage.getItem('roles_list')) || [];
+        const select = document.getElementById('roleSelect');
+
+        let web_id;
+        let avatar_id;
+        let web_style_id;
+        const baseLink = 'pandora-temp.pages.dev/api/cus?w=';
+
+        // 鍚屾椤甸潰鏁版嵁
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'roles_list') {
+                rolesList = JSON.parse(localStorage.getItem('roles_list')) || [];
+                console.log('瑙掕壊鍒楄〃宸叉洿鏂?', rolesList);
+                initRoleSelect();
+            }
+        });
+
+        function generateShortId(length = 8) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            const cryptoArray = new Uint8Array(length);
+            window.crypto.getRandomValues(cryptoArray);
+            return Array.from(cryptoArray)
+                .map((byte) => chars[byte % chars.length])
+                .join('');
+        }
+
+        async function initWebID() {
+            try {
+                const response = await fetch('/api/auth/get_web_id', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        unionid: unionid
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.detail || '璇锋眰澶辫触');
+                }
+                console.log("GGGGG", result)
+                web_id = result.web_id;
+                avatar_id = result.avatar_id;
+                web_style_id = result.web_style_id;
+
+                localStorage.setItem('web_style_id', web_style_id);
+                document.querySelector('.link-value').textContent = baseLink + web_id;
+                select.value = avatar_id;
+
+            } catch (error) {
+                console.error('get_web_id澶辫触:', error.message);
+                XSAlert(`鑾峰彇鑷畾涔夌綉椤典俊鎭け璐);
+            }
+        }
+
+        // 鍒濆鍖栬鑹查€夋嫨
+        function initRoleSelect() {
+            // 娓呯┖鐜版湁閫夐」
+            select.innerHTML = '';
+
+            rolesList.forEach(role => {
+                if (role.version > 0) {
+                    const option = document.createElement('option');
+                    option.value = role.avatar_id;
+                    option.textContent = role.avatar_name;
+                    select.appendChild(option);
+                }
+            });
+        }
+
+        // 椋庢牸閫夋嫨閫昏緫
+        function initStyleSelection() {
+            const styles = document.querySelectorAll('.style-item');
+
+            // 鎭㈠淇濆瓨鐨勬牱寮?            if (web_style_id) {
+                const target = document.querySelector(`[data-style-id="${web_style_id}"]`);
+                target?.classList.add('selected');
+            }
+            console.log("GGGGG2", web_style_id)
+
+            styles.forEach(item => {
+                item.addEventListener('click', () => {
+                    styles.forEach(i => i.classList.remove('selected'));
+                    item.classList.add('selected');
+                    localStorage.setItem('web_style_id', item.dataset.styleId);
+                });
+            });
+        }
+
+        function copyCode(event) {
+            const btn = event.target;
+            const text = document.querySelector('.link-value').textContent;
+            console.log("copyCode", text)
+            if (text && text !== '鏃犻摼鎺?) {
+                navigator.clipboard.writeText(text).then(() => {
+                    btn.textContent = '鉁?宸插鍒?;
+                    btn.style.backgroundColor = '#50C878'; // 鎴愬姛鍙嶉棰滆壊
+                    setTimeout(() => {
+                        btn.textContent = '澶嶅埗';
+                        btn.style.backgroundColor = '#4A90E2';
+                    }, 1500);
+                }).catch(err => {
+                    btn.textContent = '澶嶅埗澶辫触';
+                    setTimeout(() => btn.textContent = '澶嶅埗', 1000);
+                });
+            } else {
+                btn.textContent = '鏃犲唴瀹?;
+                setTimeout(() => btn.textContent = '澶嶅埗', 1000);
+            }
+        };
+
+        function regenerate() {
+            const randomString = generateShortId();
+            document.querySelector('.link-value').textContent = baseLink + randomString;
+
+            // 鎻愪緵瑙嗚鍙嶉
+            this.textContent = '鐢熸垚涓?..';
+            setTimeout(() => {
+                this.textContent = '閲嶆柊鐢熸垚';
+            }, 500);
+        }
+
+        function checkMembershipValid() {
+            const membership_level = parseInt(localStorage.getItem('membership_level')) || 0;
+            const membership_expiry_time = localStorage.getItem('membership_expiry_time'); //鏍煎紡绫讳技'2025-03-23 00:00:00'
+            if (membership_level > 0 && membership_expiry_time) {
+                const expiryDate = new Date(membership_expiry_time);
+                console.log("AAAA2", expiryDate, new Date())
+                if (expiryDate > new Date()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // 鍒涘缓鍔熻兘
+        document.getElementById('createBtn').addEventListener('click', async () => {
+            if (!checkMembershipValid()) {
+                XSAlert('鏈紑鍚細鍛樻垨浼氬憳宸茶繃鏈?);
+                return;
+            }
+
+            const settings = {
+                unionid: unionid,
+                avatar_id: select.value,
+                web_id: document.querySelector('.link-value').textContent.slice(21),
+                web_style_id: document.querySelector('.style-item.selected').dataset.styleId
+            };
+            // 鍩虹鏍￠獙
+            if (!settings.web_id) {
+                XSAlert('鏈敓鎴愭湁鏁堢綉椤甸摼鎺?);
+                return;
+            }
+            if (!settings.avatar_id) {
+                XSAlert('鏈€夋嫨瑙掕壊');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/custom_web', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(settings)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.detail || '璇锋眰澶辫触');
+                }
+
+                XSAlert('缃戦〉閰嶇疆鎴愬姛锛?);
+                // 鍙€夛細鎴愬姛鍚庤烦杞垨鍒锋柊鏁版嵁
+            } catch (error) {
+                console.error('淇濆瓨澶辫触:', error);
+                XSAlert("缃戦〉閰嶇疆澶辫触");
+            }
+        });
+
+        // 鍒濆鍖?        document.addEventListener('DOMContentLoaded', async () => {
+            initRoleSelect();
+            await initWebID();
+            initStyleSelection();
+        });
+    </script>
+</body>
+</html>

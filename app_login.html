@@ -1,0 +1,570 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鐧诲綍閫夋嫨</title>
+    <link href="../css/material-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-page: #f5f6f8;
+            --bg-card: #ffffff;
+            --brand-red: #ff2442;
+            --brand-red-light: #fff0f2;
+            --text-primary: #333333;
+            --text-secondary: #86909c;
+            --text-tertiary: #c9cdd4;
+            --wechat-green: #07c160;
+            --border-color: #f3f3f3;
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.04);
+            --shadow-btn: 0 8px 24px rgba(255, 36, 66, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-page);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 鑳屾櫙瑁呴グ */
+        .bg-decoration {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+        }
+
+        .blob-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 36, 66, 0.08);
+            top: -100px;
+            right: -50px;
+            animation: float 20s infinite alternate;
+        }
+
+        .blob-2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 150, 150, 0.1);
+            bottom: -50px;
+            left: -50px;
+            animation: float 25s infinite alternate-reverse;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 20px) scale(1.1); }
+        }
+
+        /* 鍏ュ満鍔ㄧ敾 */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 380px;
+            animation: slideUp 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 32px 28px;
+            box-shadow: var(--shadow-card);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 淇℃伅灞曠ず鍖?*/
+        .info-section {
+            background: #fafafa;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 28px;
+            text-align: left;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            transition: background 0.2s;
+            padding: 8px;
+            margin: -8px;
+            border-radius: 8px;
+        }
+
+        .info-item:hover {
+            background: rgba(0,0,0,0.02);
+        }
+
+        .info-badge {
+            flex-shrink: 0;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .badge-app {
+            background: var(--brand-red-light);
+            color: var(--brand-red);
+        }
+
+        .badge-wechat {
+            background: rgba(7, 193, 96, 0.1);
+            color: var(--wechat-green);
+        }
+
+        .info-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* App鐮佽緭鍏ュ尯鍩?*/
+        .app-code-section {
+            margin-bottom: 20px;
+        }
+
+        .section-label {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            display: block;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .code-input-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .code-input {
+            width: 44px;
+            height: 52px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+            background: #fff;
+            text-transform: uppercase;
+            transition: all 0.2s;
+            outline: none;
+            font-family: 'SF Mono', 'Consolas', monospace;
+        }
+
+        .code-input:focus {
+            border-color: var(--brand-red);
+            background: var(--brand-red-light);
+            box-shadow: 0 0 0 3px rgba(255, 36, 66, 0.1);
+        }
+
+        .code-input.filled {
+            border-color: var(--brand-red);
+            background: var(--brand-red-light);
+        }
+
+        /* 鎸夐挳缁?*/
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 999px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-main {
+            background: var(--brand-red);
+            color: white;
+            box-shadow: var(--shadow-btn);
+        }
+
+        .btn-main:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(255, 36, 66, 0.3);
+            filter: brightness(1.05);
+        }
+
+        .btn-main:active:not(:disabled) {
+            transform: translateY(0) scale(0.98);
+        }
+        
+        /* 绂佺敤鐘舵€?*/
+        .btn-main:disabled {
+            background: #ccc;
+            box-shadow: none;
+            pointer-events: none;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: #fafafa;
+            border-color: #e0e0e0;
+        }
+
+        .btn-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 鍒嗗壊绾?*/
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+        .divider span {
+            padding: 0 12px;
+            color: var(--text-tertiary);
+            font-size: 14px;
+        }
+
+        /* 搴曢儴閾炬帴 */
+        .footer-note {
+            margin-top: 24px;
+            font-size: 14px;
+            color: var(--text-tertiary);
+        }
+
+        .footer-note a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .footer-note a:hover {
+            color: var(--brand-red);
+        }
+
+        /* 鍔犺浇鍔ㄧ敾 */
+        .btn.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        .btn.loading .btn-text {
+            visibility: hidden;
+        }
+        .btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 绉诲姩绔€傞厤 */
+        @media (max-width: 400px) {
+            .card {
+                padding: 24px 20px;
+            }
+            .code-input {
+                width: 40px;
+                height: 48px;
+                font-size: 18px;
+            }
+        }
+
+        /* 鍑忓皯鍔ㄧ敾鍋忓ソ */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 鑳屾櫙瑁呴グ -->
+    <div class="bg-decoration">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- 涓诲唴瀹?-->
+    <div class="container">
+        <div class="card">
+            <!-- 1. 淇℃伅鎻愮ず鍖?-->
+            <div class="info-section">
+                <div class="info-item">
+                    <span class="info-badge badge-app">鎺ㄨ崘</span>
+                    <div class="info-text">
+                        <strong>App鐮佸揩閫熻繘鍏?/strong><br>
+                        寰俊涓墦寮€ pandora-temp.pages.dev <br>
+                        杩涘叆銆屾垜鐨勩€嶉〉闈?<br>
+                        鐢宠App鐮?                    </div>
+                </div>
+                <div class="info-item" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-color);">
+                    <span class="info-badge badge-wechat">澶囬€?/span>
+                    <div class="info-text">
+                        <strong>寰俊鎵爜鐧诲綍</strong><br>
+                        鍑嗗鍙︿竴閮ㄦ墜鏈?                        寰俊鎵爜鎺堟潈鐧诲綍
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. App鐮佽緭鍏ュ尯 (涓昏鎿嶄綔缃《) -->
+            <div class="app-code-section">
+                <span class="section-label">璇疯緭鍏?6 浣?App 鐮?/span>
+                <div class="code-input-wrapper" id="codeInputWrapper">
+                    <input type="text" maxlength="1" class="code-input" data-index="0" placeholder=" " autocomplete="off">
+                    <input type="text" maxlength="1" class="code-input" data-index="1" placeholder=" " autocomplete="off">
+                    <input type="text" maxlength="1" class="code-input" data-index="2" placeholder=" " autocomplete="off">
+                    <input type="text" maxlength="1" class="code-input" data-index="3" placeholder=" " autocomplete="off">
+                    <input type="text" maxlength="1" class="code-input" data-index="4" placeholder=" " autocomplete="off">
+                    <input type="text" maxlength="1" class="code-input" data-index="5" placeholder=" " autocomplete="off">
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <!-- App鐮佺櫥褰曟寜閽?-->
+                <button class="btn btn-main" id="appBtn" onclick="appCodeLogin()" disabled>
+                    <span class="btn-icon">
+                         <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/>
+                        </svg>
+                    </span>
+                    <span class="btn-text">App鐮佸揩閫熻繘鍏?/span>
+                </button>
+
+                <!-- 鍒嗗壊绾?-->
+                <div class="divider"><span>鎴?/span></div>
+
+                <!-- 寰俊鐧诲綍鎸夐挳 -->
+                <button class="btn btn-secondary" id="wechatBtn" onclick="wechatLogin()">
+                    <span class="btn-icon" style="color: var(--wechat-green);">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178A1.17 1.17 0 014.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178 1.17 1.17 0 01-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 01.598.082l1.584.926a.272.272 0 00.14.045c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.49.49 0 01.176-.553C23.1 18.119 24 16.513 24 14.731c0-3.372-3.094-5.873-7.062-5.873zm-2.445 2.522c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982z"/>
+                        </svg>
+                    </span>
+                    <span class="btn-text">寰俊鎵爜鐧诲綍</span>
+                </button>
+            </div>
+
+            <div class="footer-note">
+                娌℃湁App鐮侊紵澶嶅埗 pandora-temp.pages.dev 鍒板井淇℃墦寮€</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 閰嶇疆閮ㄥ垎 ---
+        const urlParams = new URLSearchParams(window.location.search);
+        let isLive = 0;
+        if (urlParams.has('CS')) {
+            isLive = 4;
+        }
+
+        const isWechat = function() {
+            const ua = navigator.userAgent.toLowerCase();
+            return ua.includes('micromessenger');
+        }();
+
+        const config = {
+            appid: isWechat ? 'wx0fd8b196dfde694e' : 'wx943ccebf2cd24432',
+            scope: isWechat ? 'snsapi_userinfo' : 'snsapi_login',
+            platform: isWechat ? 'wechat' : 'web'
+        };
+
+        const redirect_uri = encodeURIComponent(
+            `https://www.pandora-temp.pages.dev/weCB.html?platform=${config.platform}&Live=${isLive}&v=1.1`
+        );
+
+        const authUrl = isWechat 
+            ? `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${config.appid}&redirect_uri=${redirect_uri}&response_type=code&scope=${config.scope}&state=STATE#wechat_redirect`
+            : `https://open.weixin.qq.com/connect/qrconnect?appid=${config.appid}&redirect_uri=${redirect_uri}&response_type=code&scope=${config.scope}&state=STATE#wechat_redirect`;
+
+        // --- 鍔熻兘鍑芥暟 ---
+
+        function wechatLogin() {
+            window.location.href = authUrl;
+        }
+
+        function getAppCode() {
+            const inputs = document.querySelectorAll('.code-input');
+            let code = '';
+            inputs.forEach(input => {
+                code += input.value;
+            });
+            return code.toUpperCase();
+        }
+
+        function checkInputStatus() {
+            const code = getAppCode();
+            const btn = document.getElementById('appBtn');
+            if (code.length === 6) {
+                btn.disabled = false;
+            } else {
+                btn.disabled = true;
+            }
+        }
+
+        function appCodeLogin() {
+            const code = getAppCode();
+            if (code.length !== 6) return;
+
+            const btn = document.getElementById('appBtn');
+            btn.classList.add('loading');
+            
+            fetch('https://www.pandora-temp.pages.dev/api/auth/login_app_code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    app_code: code
+                })
+            })
+            .then(response => response.json())
+            .then(result => {
+                localStorage.setItem('unionid', result.userInfo.unionid);
+                localStorage.setItem('openid', result.userInfo.openid);
+                localStorage.setItem('nickname', result.userInfo.nickname);
+                localStorage.setItem('headimgurl', result.userInfo.headimgurl);
+                localStorage.setItem('voices_list', JSON.stringify(result.userInfo.voices_list));
+                localStorage.setItem('roles_list', JSON.stringify(result.userInfo.roles_list));
+                localStorage.setItem('bg_list', JSON.stringify(result.userInfo.bg_list));
+                localStorage.setItem('membership_level', result.userInfo.membership_level);
+                localStorage.setItem('membership_expiry_time', result.userInfo.membership_expiry_time);
+                localStorage.setItem('token_balance', result.userInfo.token_balance);
+                localStorage.setItem('avatar_balance', result.userInfo.avatar_balance.toFixed(1));
+                localStorage.setItem('voice_balance', result.userInfo.voice_balance.toFixed(1));
+                localStorage.setItem('video_balance', result.userInfo.video_balance.toFixed(1));
+                localStorage.setItem('jwt_token', result.userInfo.jwt_token);
+                localStorage.setItem('use_tag', isLive);
+                localStorage.setItem('notify', 1);
+                window.location.href = 'home.html?v=2.0';
+            })
+            .catch(error => {
+                console.error('app code login failed:', error);
+                btn.classList.remove('loading');
+                alert('App鐮佺櫥褰曞け璐ワ紝璇锋鏌pp鐮佹槸鍚︽纭垨鏄惁杩囨湡');
+            });
+        }
+
+        // --- 杈撳叆妗嗕氦浜掗€昏緫 ---
+        const codeInputWrapper = document.getElementById('codeInputWrapper');
+        const inputs = codeInputWrapper.querySelectorAll('.code-input');
+
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                e.target.value = e.target.value.toUpperCase();
+                
+                if (e.target.value) {
+                    e.target.classList.add('filled');
+                    if (index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                } else {
+                    e.target.classList.remove('filled');
+                }
+                
+                checkInputStatus();
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pasteData = (e.clipboardData || window.clipboardData).getData('text');
+                const cleanData = pasteData.replace(/[^a-zA-Z0-9]/g, '').toUpperCase().slice(0, 6); 
+                
+                for (let i = 0; i < cleanData.length; i++) {
+                    if (inputs[i]) {
+                        inputs[i].value = cleanData[i];
+                        inputs[i].classList.add('filled');
+                    }
+                }
+                
+                const focusIndex = Math.min(cleanData.length, inputs.length - 1);
+                inputs[focusIndex].focus();
+                
+                checkInputStatus();
+            });
+        });
+    </script>
+</body>
+</html>

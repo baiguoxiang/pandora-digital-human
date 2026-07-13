@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>潘多拉-闅愮鍗忚</title>
+    <link href="../css/material-icons.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            padding: 0 16px;
+        }
+
+        .title-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 17px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .nav-button:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        /* 鏂板鍐呭鍖哄煙鏍峰紡 */
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .privacy-text {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+            white-space: pre-line;
+        }
+
+        .privacy-text strong {
+            color: #000;
+            font-weight: 600;
+        }
+        .material-icons {
+            color: #ff3c64;
+        }
+    </style>
+</head>
+<body>
+    <div class="title-bar">
+        <button class="nav-button back-btn" onclick="history.back()">
+            <i class="material-icons">arrow_back</i>
+        </button>
+        <div class="title">闅愮鍗忚</div>
+    </div>
+    <div class="content-card">
+        <div class="privacy-text">
+鎰熻阿鎮ㄤ娇鐢∕atesX鏁板瓧浜鸿蒋浠讹紝鏈蒋浠剁敱涓婃捣浜戣櫄浜掍即绉戞妧鏈夐檺鍏徃鍙戝竷锛屽寘鍚獳I瀵硅瘽鍜屼汉鐗╁缓妯＄瓑AI鐢熸垚鏈嶅姟銆傛垜浠潪甯搁噸瑙嗘偍鐨勯殣绉侊紝骞惰嚧鍔涗簬淇濇姢鎮ㄧ殑涓汉淇℃伅銆備互涓嬫槸鎴戜滑闅愮鍗忚鐨勮缁嗗唴瀹癸細
+
+1. 淇℃伅鏀堕泦锛氭垜浠敹闆嗙殑淇℃伅鍖呮嫭浣嗕笉闄愪簬鎮ㄤ笂浼犵殑鐓х墖銆佺敓鎴愮殑鍥惧儚浠ュ強浣跨敤鏈嶅姟鐨勭浉鍏虫暟鎹€傝繖浜涗俊鎭敤浜庢彁鍗囨湇鍔¤川閲忋€佷繚璇佸唴瀹瑰悎娉曞苟纭繚鏈嶅姟鐨勬甯歌繍琛屻€?
+2. 淇℃伅浣跨敤锛氭垜浠粎灏嗘敹闆嗙殑淇℃伅鐢ㄤ簬鎻愪緵鍜屾敼杩涙垜浠殑鏈嶅姟銆傛垜浠笉浼氬皢鎮ㄧ殑涓汉淇℃伅鍑哄敭缁欑涓夋柟锛岄櫎闈炲緱鍒版偍鐨勬槑纭悓鎰忔垨娉曞緥瑕佹眰銆?
+3. 淇℃伅瀛樺偍锛氭偍鐨勪俊鎭皢瀛樺偍鍦ㄥ畨鍏ㄧ殑鏈嶅姟鍣ㄤ笂锛屽苟閲囧彇鍚堢悊鐨勬妧鏈拰缁勭粐鎺柦鏉ヤ繚鎶ゆ偍鐨勪俊鎭厤鍙楁湭缁忔巿鏉冪殑璁块棶銆佹硠闇层€佺鏀规垨涓㈠け銆?
+4. 淇℃伅鍏变韩锛氬湪閫夋嫨鏍囧噯浜戞湇鍔＄殑鎯呭喌涓嬶紝鎴戜滑鍙兘浼氫笌浜戞湇鍔℃彁渚涘晢鍏变韩鎮ㄧ殑淇℃伅锛屼负浜嗚幏鍙栫浉搴旂殑鏈嶅姟鍐呭銆傛墍鏈夊悎浣滀紮浼撮兘闇€閬靛畧涓ユ牸鐨勪繚瀵嗗崗璁€?
+5. 鏁版嵁鍒犻櫎锛氭偍鍙互闅忔椂璇锋眰鍒犻櫎鎮ㄧ殑涓汉淇℃伅銆傛垜浠皢鏍规嵁鎮ㄧ殑璇锋眰灏藉揩鍒犻櫎鐩稿叧鏁版嵁锛岄櫎闈炴硶寰嬭姹傛垜浠繚鐣欒繖浜涗俊鎭€?
+6. 闅愮鏀跨瓥鐨勫彉鏇达細鎴戜滑鍙兘浼氫笉鏃舵洿鏂版湰闅愮鍗忚銆備换浣曟洿鏀瑰皢鍦ㄦ垜浠殑鏈嶅姟涓叕甯冿紝骞跺湪鐢熸晥鍓嶉€氱煡鎮ㄣ€?
+7. 鍏嶈矗澹版槑锛氭湰浜у搧鑷村姏浜庢墦閫犲仴搴峰悎娉曠殑AI浜や簰宸ュ叿锛屼繚璇佺敤鎴蜂娇鐢ㄧ殑鍐呭绗﹀悎娉曞緥娉曡銆傚浜庢互鐢ㄦ浜у搧鎴栦紶鎾浉鍏抽煶瑙嗛閫犳垚涓嶈壇褰卞搷锛屼箖鑷宠繚鍙嶆硶寰嬫硶瑙勭殑琛屼负锛屾湰浜у搧淇濈暀杩借瘔鐨勬潈鍒┿€?
+8. 鐢熸晥鏃堕棿锛氭湰闅愮鍗忚鑷?025骞?鏈?鏃ヨ捣鐢熸晥銆傛垜浠缓璁偍瀹氭湡鏌ョ湅鏈崗璁紝浠ヤ簡瑙ｄ换浣曟洿鏂版垨鍙樻洿銆?
+濡傛灉鎮ㄥ鎴戜滑鐨勯殣绉佸崗璁湁浠讳綍鐤戦棶鎴栭渶瑕佽繘涓€姝ョ殑淇℃伅锛岃闅忔椂鑱旂郴鎴戜滑鐨勫鎴锋敮鎸佸洟闃燂紝鍙戦€侀偖浠惰嚦kleinlee1@outlook.com銆?        </div>
+    </div>
+</body>
+</html>

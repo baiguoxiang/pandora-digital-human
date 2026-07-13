@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>潘多拉-绯荤粺璁剧疆</title>
+    <link href="../css/material-icons.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            padding: 0 16px;
+        }
+
+        .title-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 17px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .nav-button:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        /* 鏂板璁剧疆椤规牱寮?*/
+        .settings-list {
+            background: white;
+            border-radius: 12px;
+            padding: 0 16px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .setting-value {
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* 寮€鍏虫牱寮?*/
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #007AFF;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        .material-icons {
+            color: #ff3c64;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="title-bar">
+        <button class="nav-button back-btn" onclick="history.back()">
+            <i class="material-icons">arrow_back</i>
+        </button>
+        <div class="title">绯荤粺璁剧疆</div>
+    </div>
+     <!-- 鏂板璁剧疆鍐呭 -->
+     <div class="settings-list">
+        <div class="setting-item">
+            <div class="setting-info">鍥炲闀垮害闄愬埗</div>
+            <div class="setting-value">200瀛?/div>
+        </div>
+        <div class="setting-item">
+            <div class="setting-info">涓婁笅鏂囦繚鐣欒疆娆?/div>
+            <div class="setting-value">10杞?/div>
+        </div>
+        <div class="setting-item">
+            <div class="setting-info">瀵硅瘽妯″瀷</div>
+            <div class="setting-value">doubao-1.5-pro-32k</div>
+        </div>
+        <div class="setting-item">
+            <div class="setting-info">瀹炴椂鏄剧ずFPS</div>
+            <label class="switch">
+                <input type="checkbox" id="fpsToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+
+    <script>
+        // 椤甸潰鍔犺浇鏃舵鏌ュ瓨鍌ㄧ姸鎬?        document.addEventListener('DOMContentLoaded', function() {
+            const fpsToggle = document.getElementById('fpsToggle');
+            
+            // 浠巐ocalStorage涓幏鍙栬缃?            const showFPS = localStorage.getItem('show_fps') === 'true';
+            fpsToggle.checked = showFPS;
+            
+            // 娣诲姞鍒囨崲浜嬩欢
+            fpsToggle.addEventListener('change', function() {
+                localStorage.setItem('show_fps', this.checked);
+                // 杩欓噷鍙互娣诲姞瀹為檯鎺у埗FPS鏄剧ず鐨勪唬鐮?                console.log('FPS鏄剧ず鐘舵€佸凡鏇存柊:', this.checked);
+            });
+        });
+    </script>
+</body>
+</html>
