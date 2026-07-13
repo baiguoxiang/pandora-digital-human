@@ -192,8 +192,8 @@
         </div>
 
         <div class="auth-section">
-            <button class="wechat-login-btn" onclick="wechatLogin()">
-                微信一键登录
+            <button class="wechat-login-btn" onclick="demoLogin()">
+                进入潘多拉体验
             </button>
         </div>
     </div>
@@ -215,6 +215,28 @@
             <p style="margin-top: 4px;">&copy; 2023-2025 潘多拉 保留所有权利</p>
         </div>
     </footer>
-    <script src="js2/l.js"></script>
+    <button class="wechat-login-btn" onclick="demoLogin()">
+    进入潘多拉体验
+</button>
+<script>
+function demoLogin() {
+    // 演示模式：直接跳转到首页，设置本地用户信息
+    localStorage.setItem('jwt_token', 'demo_token');
+    localStorage.setItem('unionid', 'demo_unionid_' + Date.now());
+    localStorage.setItem('openid', 'demo_openid');
+    localStorage.setItem('nickname', '潘多拉用户');
+    localStorage.setItem('headimgurl', '');
+    localStorage.setItem('roles_list', JSON.stringify([]));
+    localStorage.setItem('voices_list', JSON.stringify([]));
+    localStorage.setItem('bg_list', JSON.stringify([]));
+    localStorage.setItem('membership_level', '0');
+    localStorage.setItem('token_balance', '10000');
+    localStorage.setItem('avatar_balance', '5');
+    localStorage.setItem('voice_balance', '3');
+    localStorage.setItem('video_balance', '3');
+    localStorage.setItem('notify', '0');
+    window.location.href = 'home.html?v=2.0';
+}
+</script>
 </body>
 </html>
