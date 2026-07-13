@@ -215,6 +215,29 @@
             <p style="margin-top: 4px;">&copy; 2023-2025 上海云虚互伴科技有限公司 保留所有权利</p>
         </div>
     </footer>
-    <button class="wechat-login-btn" onclick="demoLogin()">进入潘多拉体验</button><script>function demoLogin() {  localStorage.setItem("jwt_token","demo");  localStorage.setItem("unionid","demo_"+Date.now());  localStorage.setItem("openid","demo");  localStorage.setItem("nickname","潘多拉用户");  localStorage.setItem("headimgurl","");  localStorage.setItem("roles_list",JSON.stringify([]));  localStorage.setItem("voices_list",JSON.stringify([]));  localStorage.setItem("bg_list",JSON.stringify([]));  localStorage.setItem("membership_level","0");  localStorage.setItem("token_balance","10000");  localStorage.setItem("avatar_balance","5");  localStorage.setItem("voice_balance","3");  localStorage.setItem("video_balance","3");  localStorage.setItem("notify","0");  window.location.href="home.html?v=2.0";}</script>
+    <button class="wechat-login-btn" onclick="demoLogin()">进入潘多拉体验</button><script>function demoLogin() {
+  localStorage.setItem("jwt_token","demo");
+  localStorage.setItem("unionid","demo_"+Date.now());
+  localStorage.setItem("openid","demo");
+  localStorage.setItem("nickname","潘多拉用户");
+  localStorage.setItem("headimgurl","");
+  localStorage.setItem("membership_level","0");
+  localStorage.setItem("token_balance","10000");
+  localStorage.setItem("avatar_balance","5");
+  localStorage.setItem("voice_balance","3");
+  localStorage.setItem("video_balance","3");
+  localStorage.setItem("notify","0");
+  localStorage.setItem("voices_list",JSON.stringify([]));
+  localStorage.setItem("bg_list",JSON.stringify([]));
+    localStorage.setItem("roles_list",JSON.stringify([
+    {id:1,name:"小潘",avatar_url:"images/avatar1.svg",status:"success",unionid:"demo",avatar_id:"av1",version:"2.0"},
+    {id:2,name:"安安",avatar_url:"images/avatar2.svg",status:"success",unionid:"demo",avatar_id:"av2",version:"2.0"},
+    {id:3,name:"小智",avatar_url:"images/avatar3.svg",status:"success",unionid:"demo",avatar_id:"av3",version:"2.0"},
+    {id:4,name:"小美",avatar_url:"images/avatar4.svg",status:"success",unionid:"demo",avatar_id:"av4",version:"2.0"},
+    {id:5,name:"小文",avatar_url:"images/avatar5.svg",status:"success",unionid:"demo",avatar_id:"av5",version:"2.0"},
+    {id:6,name:"小勇",avatar_url:"images/avatar6.svg",status:"success",unionid:"demo",avatar_id:"av6",version:"2.0"}
+  ]));
+  window.location.href="home.html?v=2.0";
+}</script>
 </body>
 </html>
